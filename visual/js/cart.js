@@ -107,4 +107,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
     renderCart();   //the initial render of the cart when the page loads
+
+
+    const checkoutBtn = document.querySelector('.checkout-btn');
+    let checkoutModalInstance = null;
+
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            if (cartItems.length === 0) {
+                alert('Your cart is empty. Please add items before checking out.');
+                return;
+            }
+            
+            
+            document.getElementById('checkoutProgress').style.width = '33%';
+            document.getElementById('checkoutProgress').classList.remove('bg-success');
+            document.getElementById('step-address').classList.remove('d-none');
+            document.getElementById('step-payment').classList.add('d-none');
+            document.getElementById('step-thankyou').classList.add('d-none');
+            
+            
+            const paymentStep = document.getElementById('step-payment');
+            const buttons = paymentStep.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = false);
+            buttons[1].innerText = 'Place Order';
+            
+            if (!checkoutModalInstance) {
+                checkoutModalInstance = new bootstrap.Modal(document.getElementById('checkoutModal'));
+            }
+            checkoutModalInstance.show();
+        });
+    }
+
+    window.nextStep = (step) => {
+        if (step === 2) {
+            document.getElementById('checkoutProgress').style.width = '66%';
+            document.getElementById('step-address').classList.add('d-none');
+            document.getElementById('step-payment').classList.remove('d-none');
+        } else if (step === 1) {
+            document.getElementById('checkoutProgress').style.width = '33%';
+            document.getElementById('step-address').classList.remove('d-none');
+            document.getElementById('step-payment').classList.add('d-none');
+        }
+    };
+
+    window.processOrder = () => {
+        
+        document.getElementById('checkoutProgress').style.width = '100%';
+        
+        const paymentStep = document.getElementById('step-payment');
+        const buttons = paymentStep.querySelectorAll('button');
+        buttons.forEach(btn => btn.disabled = true);
+        buttons[1].innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+
+        setTimeout(() => {
+            document.getElementById('step-payment').classList.add('d-none');
+            document.getElementById('step-thankyou').classList.remove('d-none');
+            document.getElementById('checkoutProgress').classList.add('bg-success');
+        }, 1500);
+    };
+
+    window.clearCart = () => {
+        cartItems = [];
+        renderCart();
+    };
 });

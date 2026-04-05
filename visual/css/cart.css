@@ -36,6 +36,13 @@ img{max-width: 100%;height: auto;}
 .empty-cart {text-align: center;padding: 3rem 0;color: var(--text-muted);}
 .empty-cart i {font-size: 4rem;color: var(--border-soft);margin-bottom: 1rem;}
 
+.checkout-step {animation: fadeInStep 0.4s ease-out forwards;}
+
+@keyframes fadeInStep {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .card{border: none;}
 .summary-card h4{color: var(--primary-color);}
 .summary-card p{color: white;}
