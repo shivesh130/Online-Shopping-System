@@ -803,6 +803,12 @@
             border-color: #c7d2fe;
         }
 
+        .cat-pill[data-cat="Grocery"]:hover:not(.active) {
+            background: #eef2ff;
+            color: #4f46e5;
+            border-color: #c7d2fe;
+        }
+
         .cat-pill[data-cat="Fashion"]:hover:not(.active) {
             background: #fdf2f8;
             color: #db2777;
@@ -1887,12 +1893,14 @@
             <div class="category-nav-scroll" id="category-filters">
                 <div class="cat-pill active" data-cat="For You" onclick="filterProducts('All', this)"><i
                         class="bi bi-grid-fill"></i> For You</div>
+                <div class="cat-pill" data-cat="Grocery" onclick="filterProducts('Grocery', this)"><i
+                        class="bi bi-grid-fill"></i> <a style="text-decoration: none; color: inherit; " href="visual/template/grocery.html">Grocery</a></div>
                 <div class="cat-pill" data-cat="Fashion" onclick="filterProducts('Fashion', this)"><i
                         class="bi bi-bag-heart"></i> Fashion</div>
                 <div class="cat-pill" data-cat="Mobiles" onclick="filterProducts('Mobiles', this)"><i
                         class="bi bi-phone"></i> Mobiles</div>
                 <div class="cat-pill" data-cat="Beauty" onclick="filterProducts('Beauty', this)"><i
-                        class="bi bi-stars"></i> Beauty</div>
+                        class="bi bi-stars"></i><a style="text-decoration: none; color: inherit; " href="visual/template/beauty.html">Beauty</a></div>
                 <div class="cat-pill" data-cat="Electronics" onclick="filterProducts('Electronics', this)"><i
                         class="bi bi-cpu"></i> Electronics</div>
                 <div class="cat-pill" data-cat="Home" onclick="filterProducts('Home', this)"><i class="bi bi-house"></i>
