@@ -4,10 +4,17 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>sprout. — Fresh Grocery</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="../css/footer.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Lora:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
+  /* Grocery Specific Styles */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -36,6 +43,7 @@
   .announcement {
     background: var(--pale); color: var(--deep);
     text-align: center; padding: 0.55rem;
+    margin-top: 15px;
     font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em;
   }
 
@@ -277,13 +285,11 @@
   .btn-white:hover { opacity: 0.88; }
 
   /* ── WHY US ── */
-  .features {
-    max-width: 1300px; margin: 0 auto; padding: 2.5rem 5%;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
+  .features { max-width: 1300px; margin: 0 auto; padding: 2.5rem 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
   .feature-card {
-    background: var(--white); border: 0.5px solid var(--border);
+    background: var(--white); 
+    border: 0.5px solid var(--border);
+    margin-bottom: 20px;
     border-radius: var(--radius); padding: 1.6rem;
     text-align: center; transition: box-shadow 0.2s;
   }
@@ -291,29 +297,7 @@
   .feature-icon { font-size: 2rem; margin-bottom: 0.8rem; }
   .feature-card h4 { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; }
   .feature-card p { font-size: 0.8rem; color: var(--gray); }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--white); border-top: 0.5px solid var(--border);
-    padding: 3rem 5% 2rem; margin-top: 3rem;
-  }
-  .footer-inner {
-    max-width: 1300px; margin: 0 auto;
-    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
-  }
-  .footer-brand .logo { display: block; margin-bottom: 0.8rem; }
-  .footer-brand p { color: var(--gray); font-size: 0.85rem; max-width: 260px; line-height: 1.7; }
-  .footer-col h5 { font-weight: 600; font-size: 0.85rem; margin-bottom: 1rem; }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-  .footer-col a { text-decoration: none; color: var(--gray); font-size: 0.83rem; transition: color 0.2s; }
-  .footer-col a:hover { color: var(--sage); }
-  .footer-bottom {
-    max-width: 1300px; margin: 2rem auto 0;
-    border-top: 0.5px solid var(--border); padding-top: 1.5rem;
-    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;
-  }
-  .footer-bottom p { font-size: 0.78rem; color: var(--gray); }
-
+  
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -323,7 +307,6 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .hero-slider { height: auto; min-height: 420px; }
-    .slide { flex-direction: column; justify-content: center; padding: 2.5rem 6%; gap: 2rem; }
     .slide-products { justify-content: center; }
     .footer-inner { grid-template-columns: 1fr 1fr; }
     .nav-links { display: none; }
@@ -336,6 +319,181 @@
 </style>
 </head>
 <body>
+
+<div id="preloader">
+    <div class="loader-content">
+        <div class="loader-logo">UrbanMart</div>
+        <div class="text-secondary small mt-2">Curating the Best for You...</div>
+    </div>
+</div>
+
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-inner">
+        <button class="search-close-btn" onclick="toggleSearch()"><i class="bi bi-x-lg"></i></button>
+        <input type="text" id="searchInput" placeholder="Search products, categories..." autofocus>
+        <button class="nav-icon-btn" onclick="toggleSearch()"
+            style="background:var(--primary-nature);color:white;border-color:var(--primary-nature);"><i
+                class="bi bi-search"></i></button>
+    </div>
+</div>
+
+<div class="nav-backdrop" id="navBackdrop" onclick="closeAll()"></div>
+
+<nav class="navbar animate__animated animate__fadeInDown">
+    <div class="container">
+        <div class="navbar-inner w-100">
+            <a class="navbar-brand fw-bold" href="../../index.html"
+                style="display:flex;align-items:center;gap:0;text-decoration:none;">
+                <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="flex-shrink:0;">
+                    <rect x="2" y="10" width="22" height="20" rx="3.5" fill="#5A8A5A" />
+                    <path d="M8 10 C8 6.5 10.5 4 13 4 C15.5 4 18 6.5 18 10" stroke="#5A8A5A" stroke-width="2.2"
+                        stroke-linecap="round" fill="none" />
+                    <path d="M9 17 L17 17" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+                    <circle cx="9.5" cy="17" r="1.2" fill="white" />
+                    <circle cx="16.5" cy="17" r="1.2" fill="white" />
+                    <text x="29" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5"
+                        fill="#1A1A1A" letter-spacing="-0.3">Urban</text>
+                    <text x="80" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5"
+                        fill="#5A8A5A" letter-spacing="-0.3">mart</text>
+                    <circle cx="144" cy="23" r="2.5" fill="#5A8A5A" />
+                </svg>
+            </a>
+            <ul class="nav-links ms-3">
+                <li><a class="nav-link" href="../../index.html#shop">Shop</a></li>
+            </ul>
+            <div class="nav-search-bar">
+                <i class="bi bi-search nav-search-icon"></i>
+                <input type="text" id="navSearchInput" class="nav-search-input"
+                    placeholder="Search products, categories...">
+                <button class="nav-search-clear" id="navSearchClear" onclick="clearNavSearch()" title="Clear"><i
+                        class="bi bi-x"></i></button>
+            </div>
+            <div class="nav-right">
+                <button class="nav-icon-btn" onclick="toggleFavDrawer()" title="Favourites"
+                    style="position:relative;">
+                    <i class="bi bi-heart"></i>
+                    <span class="cart-badge" id="favIconBadge" style="display:none;background:#e11d48;">0</span>
+                </button>
+                <div class="settings-wrapper">
+                    <button class="nav-icon-btn" onclick="toggleSettings()" title="Settings" id="settingsBtn"><i
+                            class="bi bi-gear"></i></button>
+                    <div class="settings-panel" id="settingsPanel">
+                        <div class="settings-panel-header">Preferences</div>
+                        <div class="settings-item" onclick="toggleSetting('notifications')">
+                            <div class="settings-item-left">
+                                <div class="settings-item-icon"><i class="bi bi-bell"></i></div>
+                                <div>
+                                    <div class="settings-item-label">Notifications</div>
+                                    <div class="settings-item-sub">Deals &amp; order updates</div>
+                                </div>
+                            </div>
+                            <button class="s-toggle on" id="toggle-notifications"></button>
+                        </div>
+                        <div class="settings-item" onclick="toggleSetting('darkmode')">
+                            <div class="settings-item-left">
+                                <div class="settings-item-icon"><i class="bi bi-moon"></i></div>
+                                <div>
+                                    <div class="settings-item-label">Dark Mode</div>
+                                    <div class="settings-item-sub">Switch appearance</div>
+                                </div>
+                            </div>
+                            <button class="s-toggle" id="toggle-darkmode"></button>
+                        </div>
+                        <div class="settings-item" onclick="toggleSetting('offers')">
+                            <div class="settings-item-left">
+                                <div class="settings-item-icon"><i class="bi bi-tag"></i></div>
+                                <div>
+                                    <div class="settings-item-label">Personalised Offers</div>
+                                    <div class="settings-item-sub">Based on your activity</div>
+                                </div>
+                            </div>
+                            <button class="s-toggle on" id="toggle-offers"></button>
+                        </div>
+                        <div class="settings-divider"></div>
+                        <div class="settings-panel-header">Account</div>
+                        <a class="settings-link-item" href="login.html">
+                            <div class="settings-item-icon"><i class="bi bi-person-circle"></i></div><span>My
+                                Profile</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                        </a>
+                        <a class="settings-link-item" href="#">
+                            <div class="settings-item-icon"><i class="bi bi-box-seam"></i></div><span>My
+                                Orders</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                        </a>
+                        <a class="settings-link-item" href="seller.html">
+                            <div class="settings-item-icon"
+                                style="background:rgba(90,138,90,0.1);color:var(--primary-nature);"><i
+                                    class="bi bi-shop"></i></div><span style="color:var(--primary-nature);">Partner
+                                with Us</span><i class="bi bi-chevron-right ms-auto"
+                                style="font-size:0.7rem;color:var(--primary-nature);"></i>
+                        </a>
+                        <a class="settings-link-item" href="about.html">
+                            <div class="settings-item-icon"><i class="bi bi-info-circle"></i></div><span>About
+                                UrbanMart</span><i class="bi bi-chevron-right ms-auto"
+                                style="font-size:0.7rem;"></i>
+                        </a>
+                    </div>
+                </div>
+                <button class="nav-icon-btn" onclick="window.location.href='cart.html'"
+                    title="Cart">
+                    <i class="bi bi-bag"></i>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
+                <a id="login-nav-btn" class="nav-login-btn" href="login.html"><i class="bi bi-person-circle"></i>
+                    Login</a>
+                <a id="user-profile-btn" class="nav-login-btn d-none" href="account.html"><i class="bi bi-person-circle"></i>
+                    <span id="user-nav-name">Profile</span></a>
+                <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i
+                        class="bi bi-list" id="hamburgerIcon"></i></button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="category-nav-bar" id="categoryNavBar">
+    <div class="category-nav-overflow-wrap" id="catOverflowWrap">
+        <div class="category-nav-scroll" id="category-filters">
+            <div class="cat-pill" data-cat="For You" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-grid-fill"></i> For You</div>
+            <div class="cat-pill active" data-cat="Grocery" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"><i
+                        class="bi bi-grid-fill"></i> Grocery</div>
+            <div class="cat-pill" data-cat="Fashion" onclick="window.location.href='fashion.html'"><i
+                        class="bi bi-bag-heart"></i> Fashion</div>
+            <div class="cat-pill" data-cat="Mobiles" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-phone"></i> Mobiles</div>
+            <div class="cat-pill" data-cat="Beauty" onclick="window.location.href='beauty.html'"><i
+                        class="bi bi-stars"></i> Beauty</div>
+            <div class="cat-pill" data-cat="Electronics" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-cpu"></i> Electronics</div>
+            <div class="cat-pill" data-cat="Home" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-house"></i> Home</div>
+            <div class="cat-pill" data-cat="Appliances" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-lightning-charge"></i> Appliances</div>
+            <div class="cat-pill" data-cat="Toys" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-controller"></i> Toys</div>
+            <div class="cat-pill" data-cat="Food" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-basket"></i> Food</div>
+            <div class="cat-pill" data-cat="Auto" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-car-front"></i> Auto</div>
+            <div class="cat-pill" data-cat="2 Wheelers" onclick="window.location.href='2_Wheelers.html'"><i
+                        class="bi bi-bicycle"></i> 2 Wheelers</div>
+            <div class="cat-pill" data-cat="Books" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-book"></i> Books</div>
+            <div class="cat-pill" data-cat="Furniture" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-lamp"></i> Furniture</div>
+            <div class="cat-pill" data-cat="Sports" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-trophy"></i> Sports</div>
+            <div class="cat-pill" data-cat="Medicines" onclick="window.location.href='../../index.html#shop'"><i
+                        class="bi bi-capsule"></i> Medicines</div>
+        </div>
+    </div>
+</div>
+
+<div class="nav-mobile-panel" id="mobilePanel">
+    <a class="mobile-nav-link" href="../../index.html"><i class="bi bi-house"></i> Home</a>
+    <a class="mobile-nav-link" href="../../index.html#shop"><i class="bi bi-bag"></i> Shop</a>
+    <a class="mobile-nav-link" href="seller.html"><i class="bi bi-shop"></i> Partner with us</a>
+</div>
 
 <!-- ANNOUNCEMENT -->
 <div class="announcement">🌿 Free delivery on orders over ₹499 &nbsp;|&nbsp; Fresh produce delivered daily</div>
@@ -695,57 +853,225 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="c-footer-w">
-    <div class="container py-5">
-        <div class="row g-5">
-            <div class="col-lg-3 col-md-6">
-                <h5 class="footer-heading">PBSSD FRESH</h5>
-                <p class="footer-text">Your daily dose of fresh and organic products, delivered to your doorstep with care and quality.</p>
-                <div class="social-icons mt-4">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+<footer class="um-footer mt-5">
+    <div class="container">
+        <!-- Main footer grid -->
+        <div class="um-footer-grid">
+            <!-- Brand col -->
+            <div class="um-footer-brand">
+                <div class="um-footer-logo">Urban<span>mart</span><span class="um-footer-dot">.</span></div>
+                <p class="um-footer-tagline">Premium products, curated with care.<br>Delivered to your doorstep
+                    across India.</p>
+                <div class="um-footer-socials">
+                    <a href="#" class="um-social-btn" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="um-social-btn" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="um-social-btn" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="um-social-btn" title="YouTube"><i class="bi bi-youtube"></i></a>
+                    <a href="#" class="um-social-btn" title="Pinterest"><i class="bi bi-pinterest"></i></a>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-6">
-                <h5 class="footer-heading">Quick Links</h5>
-                <ul class="list-unstyled footer-links">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
+
+            <!-- Shop col -->
+            <div class="um-footer-col">
+                <h6 class="um-footer-col-head">Shop</h6>
+                <ul class="um-footer-links">
+                    <li><a href="#">Fashion &amp; Clothing</a></li>
+                    <li><a href="#">Mobiles &amp; Tablets</a></li>
+                    <li><a href="#">Electronics</a></li>
+                    <li><a href="#">Home &amp; Furniture</a></li>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Sale</a></li>
                 </ul>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <h5 class="footer-heading">Help & Support</h5>
-                <ul class="list-unstyled footer-links">
+
+            <!-- Help col -->
+            <div class="um-footer-col">
+                <h6 class="um-footer-col-head">Help</h6>
+                <ul class="um-footer-links">
+                    <li><a href="#">Track Order</a></li>
+                    <li><a href="#">Returns &amp; Refunds</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Size Guide</a></li>
                     <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Shipping Policy</a></li>
-                    <li><a href="#">Returns & Exchanges</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Contact Us</a></li>
                 </ul>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <h5 class="footer-heading">Subscribe to our Newsletter</h5>
-                <p class="footer-text">Get the latest updates on new products and upcoming sales.</p>
-                <form class="newsletter-form mt-3">
-                    <div class="input-group">
-                        <input type="email" class="form-control" placeholder="Your email address" required>
-                        <button class="btn btn-subscribe" type="submit">Subscribe</button>
-                    </div>
-                </form>
+
+            <!-- Company col -->
+            <div class="um-footer-col">
+                <h6 class="um-footer-col-head">Company</h6>
+                <ul class="um-footer-links">
+                    <li><a href="about.html">About UrbanMart</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="seller.html">Partner with Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms &amp; Conditions</a></li>
+                </ul>
             </div>
         </div>
-        <hr class="footer-divider">
-        <div class="footer-bottom">
-            <p>&copy; 2024 PBSSD Fresh. All Rights Reserved.</p>
+
+        <!-- Divider -->
+        <div class="um-footer-divider"></div>
+
+        <!-- Bottom bar -->
+        <div class="um-footer-bottom">
+            <p class="um-footer-copy">© 2026 UrbanMart. All rights reserved. Made with <i class="bi bi-heart-fill"
+                    style="color:#e87a7a;font-size:0.75rem;"></i> in India.</p>
+            <div class="um-payment-badges">
+                <span class="um-pay-badge">VISA</span>
+                <span class="um-pay-badge">MC</span>
+                <span class="um-pay-badge">UPI</span>
+                <span class="um-pay-badge">PayTM</span>
+                <span class="um-pay-badge">COD</span>
+            </div>
         </div>
     </div>
 </footer>
 
+<!-- Favourites Drawer -->
+<div class="fav-backdrop" id="favBackdrop" onclick="toggleFavDrawer()"></div>
+<div class="fav-drawer" id="favDrawer">
+    <div class="fav-drawer-head">
+        <div class="fav-drawer-title">
+            <i class="bi bi-heart-fill" style="color:#e11d48;"></i>
+            Favourites
+            <span class="fav-drawer-count" id="favDrawerCount">0</span>
+        </div>
+        <button class="fav-drawer-close" onclick="toggleFavDrawer()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="fav-drawer-body" id="favDrawerBody">
+        <div class="fav-empty" id="favEmpty">
+            <div class="fav-empty-icon"><i class="bi bi-heart"></i></div>
+            <h5>Nothing saved yet</h5>
+            <p>Tap the heart on any product to save it here.</p>
+        </div>
+        <div class="fav-grid" id="favGrid"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="userLoginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 25px; background: var(--ivory);">
+            <div class="modal-body p-5 text-center">
+                <div class="mb-4">
+                    <i class="bi bi-lock-fill display-4" style="color: var(--sage);"></i>
+                    <h3 class="fw-bold mt-2">Login Required</h3>
+                    <p class="text-secondary">Please sign in to view product details and shop.</p>
+                </div>
+                <form id="modalLoginForm">
+                    <input type="email" id="modalEmail"
+                        class="form-control mb-3 py-3 rounded-pill border-0 shadow-sm px-4"
+                        placeholder="Email Address" required>
+                    <input type="password" id="modalPass"
+                        class="form-control mb-4 py-3 rounded-pill border-0 shadow-sm px-4" placeholder="Password"
+                        required>
+                    <button type="submit"
+                        class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm mb-3">Sign In</button>
+                </form>
+                <p class="small text-muted mb-0">New here? <a href="login.html"
+                        style="color: var(--sage);" class="fw-bold text-decoration-none">Create an
+                        account</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
 <script>
+  // --- UI Interactions ---
+  let settingsOpen = false;
+  function toggleSettings() {
+      settingsOpen = !settingsOpen;
+      const panel = document.getElementById('settingsPanel');
+      const btn = document.getElementById('settingsBtn');
+      if (panel) panel.classList.toggle('open', settingsOpen);
+      if (btn) btn.classList.toggle('active', settingsOpen);
+      document.getElementById('navBackdrop')?.classList.toggle('active', settingsOpen);
+      if (mobileOpen) closeMobile();
+  }
+  function closeSettings() {
+      settingsOpen = false;
+      document.getElementById('settingsPanel')?.classList.remove('open');
+      document.getElementById('settingsBtn')?.classList.remove('active');
+  }
+  function toggleSetting(id) { document.getElementById('toggle-' + id)?.classList.toggle('on'); }
+
+  let mobileOpen = false, searchOpen = false;
+  function toggleMobile() {
+      mobileOpen = !mobileOpen;
+      const panel = document.getElementById('mobilePanel');
+      const icon = document.getElementById('hamburgerIcon');
+      const backdrop = document.getElementById('navBackdrop');
+      if (mobileOpen) {
+          if (panel) { panel.style.display = 'flex'; requestAnimationFrame(() => panel.classList.add('open')); }
+          if (icon) icon.className = 'bi bi-x-lg';
+          backdrop?.classList.add('active');
+      } else { closeMobile(); }
+  }
+  function closeMobile() {
+      mobileOpen = false;
+      const panel = document.getElementById('mobilePanel');
+      const icon = document.getElementById('hamburgerIcon');
+      if (panel) {
+          panel.classList.remove('open');
+          setTimeout(() => { if (!mobileOpen) panel.style.display = 'none'; }, 350);
+      }
+      if (icon) icon.className = 'bi bi-list';
+  }
+  function closeAll() { closeMobile(); closeSettings(); document.getElementById('navBackdrop')?.classList.remove('active'); }
+  function toggleSearch() {
+      searchOpen = !searchOpen;
+      const overlay = document.getElementById('searchOverlay');
+      if (overlay) overlay.classList.toggle('active', searchOpen);
+      if (searchOpen) setTimeout(() => document.getElementById('searchInput')?.focus(), 300);
+  }
+  function clearNavSearch() {
+      const input = document.getElementById('navSearchInput');
+      const clear = document.getElementById('navSearchClear');
+      if (input) input.value = '';
+      clear?.classList.remove('visible');
+      input?.focus();
+  }
+
+  // --- CART STATE LOGIC (IndexedDB) ---
+  let cartDB;
+  const cartRequest = indexedDB.open('PBSSDCartDB', 1);
+  cartRequest.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains('cart_state')) db.createObjectStore('cart_state');
+  };
+  cartRequest.onsuccess = (e) => {
+      cartDB = e.target.result;
+      refreshCartBadge();
+  };
+
+  function getCartBadgeEl() {
+      return document.getElementById('cart-badge') || document.getElementById('cartBadge');
+  }
+  function refreshCartBadge() {
+      if (!cartDB) return;
+      const tx = cartDB.transaction(['cart_state'], 'readonly');
+      const store = tx.objectStore('cart_state');
+      const getReq = store.get('count');
+      getReq.onsuccess = () => {
+          const badge = getCartBadgeEl();
+          if (badge) badge.innerText = getReq.result || 0;
+      };
+  }
+
+  window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => { if (preloader) { preloader.style.opacity = '0'; preloader.style.visibility = 'hidden'; } }, 1000);
+      AOS.init({ duration: 900, once: true, offset: 80, easing: 'ease-out-cubic' });
+      
+      const nav = document.querySelector('.navbar');
+      const catBar = document.getElementById('categoryNavBar');
+      if (nav && catBar) catBar.style.top = (nav.getBoundingClientRect().height + 4) + 'px';
+  });
+
   // ── SLIDER ──
   const track = document.getElementById('slidesTrack');
   const dotsContainer = document.getElementById('sliderDots');
@@ -826,18 +1152,31 @@
   });
 
   // ── BAG COUNTER ──
-  let bagCount = 0;
   document.querySelectorAll('.add-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      bagCount++;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      
+      const badge = document.getElementById('cart-badge');
+      if (!badge) return;
+
+      let count = parseInt(badge.innerText) || 0;
+      count++;
+      
+      // Update UI
+      badge.innerText = count;
+
+      // Update IndexedDB for persistence across pages
+      if (cartDB) {
+          const tx = cartDB.transaction(['cart_state'], 'readwrite');
+          tx.objectStore('cart_state').put(count, 'count');
+      }
+
       const orig = btn.textContent;
       btn.textContent = '✓';
       btn.style.background = 'var(--sage)';
       btn.style.color = '#fff';
       setTimeout(() => {
         btn.textContent = orig;
-        btn.style.background = '';
-        btn.style.color = '';
       }, 900);
     });
   });
@@ -849,4 +1188,112 @@
   document.querySelectorAll('.product-card').forEach(c => observer.observe(c));
 </script>
 </body>
+<style>
+    /* Favourites Drawer Styles from style.css */
+    .fav-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1900;
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(4px);
+    }
+    .fav-backdrop.open { display: block; }
+    .fav-drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 420px;
+        max-width: 96vw;
+        background: var(--ivory);
+        z-index: 2000;
+        display: flex;
+        flex-direction: column;
+        transform: translateX(100%);
+        transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -12px 0 48px rgba(0, 0, 0, 0.14);
+    }
+    .fav-drawer.open { transform: translateX(0); }
+    .fav-drawer-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 22px 18px;
+        border-bottom: 0.5px solid var(--border);
+        flex-shrink: 0;
+    }
+    .fav-drawer-title {
+        font-family: var(--heading-font);
+        font-size: 1.15rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+    .fav-drawer-count {
+        font-family: var(--body-font);
+        font-size: 0.72rem;
+        font-weight: 800;
+        background: #e11d48;
+        color: white;
+        border-radius: 50px;
+        padding: 2px 8px;
+    }
+    .fav-drawer-close {
+        width: 36px;
+        height: 36px;
+        border: 0.5px solid var(--border);
+        border-radius: 10px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--gray);
+        transition: all 0.2s;
+    }
+    .fav-drawer-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 18px;
+    }
+    .fav-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 24px;
+        text-align: center;
+    }
+    .fav-empty-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: #fff0f2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: #e11d48;
+        margin-bottom: 18px;
+    }
+    .fav-grid { display: flex; flex-direction: column; gap: 12px; }
+    .fav-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: white;
+        border: 0.5px solid var(--border);
+        border-radius: 14px;
+        padding: 12px;
+    }
+    .fav-item-img {
+        width: 72px;
+        height: 72px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+</style>
 </html>

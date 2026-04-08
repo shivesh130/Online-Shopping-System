@@ -4,10 +4,16 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Lumière — Glow Naturally, Shine Confidently</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Lora:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+
 <style>
-/* ================================================
+/* --- Beauty Specific Styling ---
    VARIABLES — Pink & White Palette + Dark Green Footer
    ================================================ */
 :root{
@@ -30,7 +36,7 @@ a{text-decoration:none;color:inherit}
 ul{list-style:none}
 button{cursor:pointer;font-family:inherit;border:none;outline:none}
 input{font-family:inherit;outline:none;border:none}
-::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-track{background:var(--pk50)}
 ::-webkit-scrollbar-thumb{background:var(--pk400);border-radius:99px}
 
@@ -317,8 +323,167 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
 </head>
 <body>
 
+<div id="preloader">
+    <div class="loader-content">
+        <div class="loader-logo">UrbanMart</div>
+        <div class="text-secondary small mt-2">Curating the Best for You...</div>
+    </div>
+</div>
+
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-inner">
+        <button class="search-close-btn" onclick="toggleSearch()"><i class="bi bi-x-lg"></i></button>
+        <input type="text" id="searchInput" placeholder="Search products, categories..." autofocus>
+        <button class="nav-icon-btn" onclick="toggleSearch()"
+            style="background:var(--primary-nature);color:white;border-color:var(--primary-nature);"><i
+                class="bi bi-search"></i></button>
+    </div>
+</div>
+
+<div class="nav-backdrop" id="navBackdrop" onclick="closeAll()"></div>
+
+<nav class="navbar animate__animated animate__fadeInDown">
+    <div class="container">
+        <div class="navbar-inner w-100">
+            <a class="navbar-brand fw-bold" href="../../index.html"
+                style="display:flex;align-items:center;gap:0;text-decoration:none;">
+                <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="flex-shrink:0;">
+                    <rect x="2" y="10" width="22" height="20" rx="3.5" fill="#5A8A5A" />
+                    <path d="M8 10 C8 6.5 10.5 4 13 4 C15.5 4 18 6.5 18 10" stroke="#5A8A5A" stroke-width="2.2"
+                        stroke-linecap="round" fill="none" />
+                    <path d="M9 17 L17 17" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+                    <circle cx="9.5" cy="17" r="1.2" fill="white" />
+                    <circle cx="16.5" cy="17" r="1.2" fill="white" />
+                    <text x="29" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5"
+                        fill="#1A1A1A" letter-spacing="-0.3">Urban</text>
+                    <text x="80" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5"
+                        fill="#5A8A5A" letter-spacing="-0.3">mart</text>
+                    <circle cx="144" cy="23" r="2.5" fill="#5A8A5A" />
+                </svg>
+            </a>
+            <ul class="nav-links ms-3">
+                <li><a class="nav-link" href="../../index.html#shop">Shop</a></li>
+            </ul>
+            <div class="nav-search-bar">
+                <i class="bi bi-search nav-search-icon"></i>
+                <input type="text" id="navSearchInput" class="nav-search-input"
+                    placeholder="Search products, categories...">
+                <button class="nav-search-clear" id="navSearchClear" onclick="clearNavSearch()" title="Clear"><i
+                        class="bi bi-x"></i></button>
+            </div>
+            <div class="nav-right">
+                <button class="nav-icon-btn" onclick="toggleFavDrawer()" title="Favourites"
+                    style="position:relative;">
+                    <i class="bi bi-heart"></i>
+                    <span class="cart-badge" id="favIconBadge" style="display:none;background:#e11d48;">0</span>
+                </button>
+                <div class="settings-wrapper">
+                    <button class="nav-icon-btn" onclick="toggleSettings()" title="Settings" id="settingsBtn"><i
+                            class="bi bi-gear"></i></button>
+                    <div class="settings-panel" id="settingsPanel">
+                        <div class="settings-panel-header">Preferences</div>
+                        <div class="settings-item" onclick="toggleSetting('notifications')">
+                            <div class="settings-item-left">
+                                <div class="settings-item-icon"><i class="bi bi-bell"></i></div>
+                                <div>
+                                    <div class="settings-item-label">Notifications</div>
+                                    <div class="settings-item-sub">Deals &amp; order updates</div>
+                                </div>
+                            </div>
+                            <button class="s-toggle on" id="toggle-notifications"></button>
+                        </div>
+                        <div class="settings-item" onclick="toggleSetting('darkmode')">
+                            <div class="settings-item-left">
+                                <div class="settings-item-icon"><i class="bi bi-moon"></i></div>
+                                <div>
+                                    <div class="settings-item-label">Dark Mode</div>
+                                    <div class="settings-item-sub">Switch appearance</div>
+                                </div>
+                            </div>
+                            <button class="s-toggle" id="toggle-darkmode"></button>
+                        </div>
+                        <div class="settings-item" onclick="toggleSetting('offers')">
+                            <div class="settings-item-left">
+                                <div class="settings-item-icon"><i class="bi bi-tag"></i></div>
+                                <div>
+                                    <div class="settings-item-label">Personalised Offers</div>
+                                    <div class="settings-item-sub">Based on your activity</div>
+                                </div>
+                            </div>
+                            <button class="s-toggle on" id="toggle-offers"></button>
+                        </div>
+                        <div class="settings-divider"></div>
+                        <div class="settings-panel-header">Account</div>
+                        <a class="settings-link-item" href="login.html">
+                            <div class="settings-item-icon"><i class="bi bi-person-circle"></i></div><span>My
+                                Profile</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                        </a>
+                        <a class="settings-link-item" href="#">
+                            <div class="settings-item-icon"><i class="bi bi-box-seam"></i></div><span>My
+                                Orders</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                        </a>
+                        <a class="settings-link-item" href="seller.html">
+                            <div class="settings-item-icon"
+                                style="background:rgba(90,138,90,0.1);color:var(--primary-nature);"><i
+                                    class="bi bi-shop"></i></div><span style="color:var(--primary-nature);">Partner
+                                with Us</span><i class="bi bi-chevron-right ms-auto"
+                                style="font-size:0.7rem;color:var(--primary-nature);"></i>
+                        </a>
+                        <a class="settings-link-item" href="about.html">
+                            <div class="settings-item-icon"><i class="bi bi-info-circle"></i></div><span>About
+                                UrbanMart</span><i class="bi bi-chevron-right ms-auto"
+                                style="font-size:0.7rem;"></i>
+                        </a>
+                    </div>
+                </div>
+                <button class="nav-icon-btn" onclick="window.location.href='cart.html'"
+                    title="Cart">
+                    <i class="bi bi-bag"></i>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
+                <a id="login-nav-btn" class="nav-login-btn" href="login.html"><i class="bi bi-person-circle"></i>
+                    Login</a>
+                <a id="user-profile-btn" class="nav-login-btn d-none" href="account.html"><i class="bi bi-person-circle"></i>
+                    <span id="user-nav-name">Profile</span></a>
+                <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i
+                        class="bi bi-list" id="hamburgerIcon"></i></button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="category-nav-bar" id="categoryNavBar">
+    <div class="category-nav-overflow-wrap" id="catOverflowWrap">
+        <div class="category-nav-scroll" id="category-filters">
+            <div class="cat-pill" data-cat="For You" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-grid-fill"></i> For You</div>
+            <div class="cat-pill" data-cat="Grocery" onclick="window.location.href='grocery.html'"><i class="bi bi-grid-fill"></i> Grocery</div>
+            <div class="cat-pill" data-cat="Fashion" onclick="window.location.href='fashion.html'"><i class="bi bi-bag-heart"></i> Fashion</div>
+            <div class="cat-pill" data-cat="Mobiles" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-phone"></i> Mobiles</div>
+            <div class="cat-pill active" data-cat="Beauty" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"><i class="bi bi-stars"></i> Beauty</div>
+            <div class="cat-pill" data-cat="Electronics" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-cpu"></i> Electronics</div>
+            <div class="cat-pill" data-cat="Home" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-house"></i> Home</div>
+            <div class="cat-pill" data-cat="Appliances" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-lightning-charge"></i> Appliances</div>
+            <div class="cat-pill" data-cat="Toys" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-controller"></i> Toys</div>
+            <div class="cat-pill" data-cat="Food" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-basket"></i> Food</div>
+            <div class="cat-pill" data-cat="Auto" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-car-front"></i> Auto</div>
+            <div class="cat-pill" data-cat="2 Wheelers" onclick="window.location.href='2_Wheelers.html'"><i class="bi bi-bicycle"></i> 2 Wheelers</div>
+            <div class="cat-pill" data-cat="Books" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-book"></i> Books</div>
+            <div class="cat-pill" data-cat="Furniture" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-lamp"></i> Furniture</div>
+            <div class="cat-pill" data-cat="Sports" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-trophy"></i> Sports</div>
+            <div class="cat-pill" data-cat="Medicines" onclick="window.location.href='../../index.html#shop'"><i class="bi bi-capsule"></i> Medicines</div>
+        </div>
+    </div>
+</div>
+
+<div class="nav-mobile-panel" id="mobilePanel">
+    <a class="mobile-nav-link" href="../../index.html"><i class="bi bi-house"></i> Home</a>
+    <a class="mobile-nav-link" href="../../index.html#shop"><i class="bi bi-bag"></i> Shop</a>
+    <a class="mobile-nav-link" href="seller.html"><i class="bi bi-shop"></i> Partner with us</a>
+</div>
+
 <!-- TOAST -->
-<div id="toast"><i class="fa-solid fa-bag-shopping"></i><span id="tmsg">Added!</span></div>
+<div id="toast"><i class="bi bi-bag-check"></i><span id="tmsg">Added!</span></div>
 
 <!-- PRODUCT DETAILS OVERLAY -->
 <div id="pd-overlay">
@@ -328,10 +493,10 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
     <div class="pd-info">
       <div id="pd-cat" class="eyebrow" style="margin-bottom:1rem">Category</div>
       <h2 id="pd-name" style="margin-bottom:.5rem">Product Name</h2>
-      <div id="pd-price" class="pcur" style="font-size:1.6rem"></div>
+      <div id="pd-price" class="pcur color-nature" style="font-size:1.6rem"></div>
       <p id="pd-desc" class="pd-desc">High-performance formula designed for maximum results. Crafted with botanical extracts to nourish and protect your skin while providing a luxurious, glowing experience.</p>
       <div style="display:flex;gap:1rem">
-        <button id="pd-atc" class="btn btn-pink" style="flex:1;justify-content:center">Add to Bag <i class="fa-solid fa-bag-shopping"></i></button>
+        <button id="pd-atc" class="btn btn-pink" style="flex:1;justify-content:center">Add to Bag <i class="bi bi-bag-plus"></i></button>
       </div>
     </div>
   </div>
@@ -348,10 +513,10 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
       <div class="hblob hb1a"></div><div class="hblob hb1b"></div>
       <div class="hcw">
         <div class="htxt">
-          <div class="htag"><i class="fa-solid fa-sparkles"></i> New Skincare Collection</div>
+          <div class="htag"><i class="bi bi-stars"></i> New Skincare Collection</div>
           <h1 class="hh1">Glow <em>Naturally</em>,<br>Shine Confidently</h1>
           <p class="hsub">Science-backed, plant-powered formulas that transform skin from within. Radiance you can feel every day.</p>
-          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="fa-solid fa-sparkles"></i> Shop Skincare</a><a href="#trending" class="btn btn-white">Explore Trends</a></div>
+          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="bi bi-stars"></i> Shop Skincare</a><a href="#trending" class="btn btn-white">Explore Trends</a></div>
           <div class="hstats">
             <div><div class="hsn">50<span>K+</span></div><div class="hsl">Happy Clients</div></div>
             <div><div class="hsn">200<span>+</span></div><div class="hsl">Products</div></div>
@@ -375,10 +540,10 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
       <div class="hblob hb2a"></div><div class="hblob hb2b"></div>
       <div class="hcw">
         <div class="htxt">
-          <div class="htag"><i class="fa-solid fa-wand-magic-sparkles"></i> Summer Makeup Edit</div>
+          <div class="htag"><i class="bi bi-palette"></i> Summer Makeup Edit</div>
           <h1 class="hh1">Bold <em>Colour</em>,<br>Pure Confidence</h1>
           <p class="hsub">Pigment-rich, long-lasting makeup made from the purest botanical pigments. Express yourself freely.</p>
-          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="fa-solid fa-palette"></i> Shop Makeup</a><a href="#categories" class="btn btn-white">All Looks</a></div>
+          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="bi bi-brush"></i> Shop Makeup</a><a href="#categories" class="btn btn-white">All Looks</a></div>
           <div class="hstats">
             <div><div class="hsn">120<span>+</span></div><div class="hsl">Shades</div></div>
             <div><div class="hsn">24<span>H</span></div><div class="hsl">Long Wear</div></div>
@@ -402,10 +567,10 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
       <div class="hblob hb3a"></div><div class="hblob hb3b"></div>
       <div class="hcw">
         <div class="htxt">
-          <div class="htag"><i class="fa-solid fa-leaf"></i> Luxury Haircare Range</div>
+          <div class="htag"><i class="bi bi-wind"></i> Luxury Haircare Range</div>
           <h1 class="hh1">Silky <em>Smooth</em>,<br>Salon Worthy</h1>
           <p class="hsub">Argan, keratin and botanical repair treatments that restore brilliance and strength to every strand.</p>
-          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="fa-solid fa-wind"></i> Shop Haircare</a><a href="#trending" class="btn btn-white">See Reviews</a></div>
+          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="bi bi-wind"></i> Shop Haircare</a><a href="#trending" class="btn btn-white">See Reviews</a></div>
           <div class="hstats">
             <div><div class="hsn">56<span>+</span></div><div class="hsl">Hair Products</div></div>
             <div><div class="hsn">0<span>%</span></div><div class="hsl">Sulfates</div></div>
@@ -429,10 +594,10 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
       <div class="hblob hb4a"></div><div class="hblob hb4b"></div>
       <div class="hcw">
         <div class="htxt">
-          <div class="htag"><i class="fa-solid fa-gem"></i> Signature Fragrances</div>
+          <div class="htag"><i class="bi bi-gem"></i> Signature Fragrances</div>
           <h1 class="hh1">Scents That <em>Linger</em>,<br>Memories That Stay</h1>
           <p class="hsub">Handcrafted in Grasse, our perfumes tell stories of rose gardens, warm amber and fresh ocean air.</p>
-          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="fa-solid fa-flask"></i> Shop Fragrance</a><a href="#categories" class="btn btn-white">Find Your Scent</a></div>
+          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="bi bi-magic"></i> Shop Fragrance</a><a href="#categories" class="btn btn-white">Find Your Scent</a></div>
           <div class="hstats">
             <div><div class="hsn">38<span>+</span></div><div class="hsl">Fragrances</div></div>
             <div><div class="hsn">8<span>H+</span></div><div class="hsl">Longevity</div></div>
@@ -456,10 +621,10 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
       <div class="hblob hb5a"></div><div class="hblob hb5b"></div>
       <div class="hcw">
         <div class="htxt">
-          <div class="htag"><i class="fa-solid fa-water"></i> Organic Body Care</div>
+          <div class="htag"><i class="bi bi-droplet"></i> Organic Body Care</div>
           <h1 class="hh1">Total <em>Body</em>,<br>Ultimate Comfort</h1>
           <p class="hsub">Nourish your skin from head to toe with our ultra-hydrating body butters and revitalizing sea salt scrubs.</p>
-          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="fa-solid fa-soap"></i> Shop Body Care</a><a href="#trending" class="btn btn-white">Daily Rituals</a></div>
+          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="bi bi-water"></i> Shop Body Care</a><a href="#trending" class="btn btn-white">Daily Rituals</a></div>
           <div class="hstats">
             <div><div class="hsn">45<span>+</span></div><div class="hsl">Body Products</div></div>
             <div><div class="hsn">100<span>%</span></div><div class="hsl">Organic</div></div>
@@ -483,10 +648,10 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
       <div class="hblob hb6a"></div><div class="hblob hb6b"></div>
       <div class="hcw">
         <div class="htxt">
-          <div class="htag"><i class="fa-solid fa-gem"></i> Premium Beauty Tools</div>
+          <div class="htag"><i class="bi bi-lightning-charge"></i> Premium Beauty Tools</div>
           <h1 class="hh1">Master <em>Tools</em>,<br>Perfect Results</h1>
           <p class="hsub">Elevate your routine with professional-grade tools designed to enhance absorption and define your natural features.</p>
-          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="fa-solid fa-wand-sparkles"></i> Shop Tools</a><a href="#categories" class="btn btn-white">How-to Guide</a></div>
+          <div class="hctas"><a href="#products" class="btn btn-pink"><i class="bi bi-tools"></i> Shop Tools</a><a href="#categories" class="btn btn-white">How-to Guide</a></div>
           <div class="hstats">
             <div><div class="hsn">25<span>+</span></div><div class="hsl">Beauty Tools</div></div>
             <div><div class="hsn">Pro<span></span></div><div class="hsl">Grade</div></div>
@@ -555,124 +720,124 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
         <div class="pimgw" onclick="openPD('Velvet Rose Serum', 48, 'Velvet Serum.jpg', 'Skincare')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa1"><div class="pcirc pctla pcp"></div><img src="../assets/Velvet Serum.jpg" alt="Velvet Rose Serum" class="pimg"><div class="pcirc pcbra pcg"></div></div>
-        <div class="pbadges"><span class="badge bn">New</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bn">New</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Skincare</div><div class="pname">Velvet Rose Serum</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(2,418)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$48.00</span><span class="pold">$65.00</span></div><button class="atc" onclick="atc(this,'Velvet Rose Serum',48)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$48.00</span><span class="pold">$65.00</span></div><button class="atc" onclick="atc(this,'Velvet Rose Serum',48)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd2">
         <div class="pimgw" onclick="openPD('Golden Glow Moisturiser', 38, 'Golden Glow Moisturiser.jpg', 'Skincare')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa2"><div class="pcirc pctla pcg"></div><img src="../assets/Golden Glow Moisturiser.jpg" alt="Golden Glow Moisturiser" class="pimg"><div class="pcirc pcbra pcp"></div></div>
-        <div class="pbadges"><span class="badge bh">🔥 Hot</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bh">🔥 Hot</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Skincare</div><div class="pname">Golden Glow Moisturiser</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(1,892)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$38.00</span></div><button class="atc" onclick="atc(this,'Golden Glow Moisturiser',38)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$38.00</span></div><button class="atc" onclick="atc(this,'Golden Glow Moisturiser',38)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd3">
         <div class="pimgw" onclick="openPD('Petal Lip & Blush Duo', 52, 'Velvet Lip.jpg', 'Makeup')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa6"><div class="pcirc pctla pcp"></div><img src="../assets/Velvet Lip.jpg" alt="Petal Lip & Blush Duo" class="pimg"><div class="pcirc pcbra pcu"></div></div>
-        <div class="pbadges"><span class="badge bs">−20%</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bs">−20%</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Makeup</div><div class="pname">Petal Lip &amp; Blush Duo</div>
         <div class="prat"><span class="stars">★★★★☆</span><span class="rc">(986)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$52.00</span><span class="pold">$65.00</span></div><button class="atc" onclick="atc(this,'Petal Lip & Blush Duo',52)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$52.00</span><span class="pold">$65.00</span></div><button class="atc" onclick="atc(this,'Petal Lip & Blush Duo',52)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd4">
         <div class="pimgw" onclick="openPD('Emerald Hair Elixir', 42, 'Argan Elixir.jpg', 'Haircare')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa4"><div class="pcirc pctla pcn"></div><img src="../assets/Argan Elixir.jpg" alt="Emerald Hair Elixir" class="pimg"><div class="pcirc pcbra pcg"></div></div>
-        <div class="pbadges"><span class="badge bn">New</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bn">New</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Haircare</div><div class="pname">Emerald Hair Elixir</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(3,021)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$42.00</span></div><button class="atc" onclick="atc(this,'Emerald Hair Elixir',42)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$42.00</span></div><button class="atc" onclick="atc(this,'Emerald Hair Elixir',42)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd1">
         <div class="pimgw" onclick="openPD('Lavender Cloud Cream', 55, 'Lavender Cloud Cream.jpg', 'Skincare')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa7"><div class="pcirc pctla pcu"></div><img src="../assets/Lavender Cloud Cream.jpg" alt="Lavender Cloud Cream" class="pimg"><div class="pcirc pcbra pcp"></div></div>
-        <div class="pbadges"><span class="badge bv">⭐ VIP</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bv">⭐ VIP</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Skincare</div><div class="pname">Lavender Cloud Cream</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(2,108)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$55.00</span><span class="pold">$65.00</span></div><button class="atc" onclick="atc(this,'Lavender Cloud Cream',55)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$55.00</span><span class="pold">$65.00</span></div><button class="atc" onclick="atc(this,'Lavender Cloud Cream',55)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd2">
         <div class="pimgw" onclick="openPD('Santal Bloom EDP', 88, 'Santal Bloom.jpg', 'Fragrance')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa9"><div class="pcirc pctla pcg"></div><img src="../assets/Santal Bloom.jpg" alt="Santal Bloom EDP" class="pimg"><div class="pcirc pcbra pcp"></div></div>
-        <div class="pbadges"><span class="badge bh">⭐ Top Pick</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bh">⭐ Top Pick</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Fragrance</div><div class="pname">Santal Bloom EDP</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(1,654)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$88.00</span></div><button class="atc" onclick="atc(this,'Santal Bloom EDP',88)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$88.00</span></div><button class="atc" onclick="atc(this,'Santal Bloom EDP',88)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd3">
         <div class="pimgw" onclick="openPD('Glow Drops SPF 50', 36, 'White Tea EDP.jpg', 'Skincare')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa5"><div class="pcirc pctla pcp"></div><img src="../assets/White Tea EDP.jpg" alt="Glow Drops SPF 50" class="pimg"><div class="pcirc pcbra pcg"></div></div>
-        <div class="pbadges"><span class="badge bn">New</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bn">New</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Skincare</div><div class="pname">Glow Drops SPF 50</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(877)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$36.00</span></div><button class="atc" onclick="atc(this,'Glow Drops SPF 50',36)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$36.00</span></div><button class="atc" onclick="atc(this,'Glow Drops SPF 50',36)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd4">
         <div class="pimgw" onclick="openPD('Micellar Bubble Cleanser', 28, 'Sea Salt Scrub.jpg', 'Skincare')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa10"><div class="pcirc pctla pcp"></div><img src="../assets/Sea Salt Scrub.jpg" alt="Micellar Bubble Cleanser" class="pimg"><div class="pcirc pcbra pcu"></div></div>
-        <div class="pbadges"><span class="badge bs">−15%</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bs">−15%</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Skincare</div><div class="pname">Micellar Bubble Cleanser</div>
         <div class="prat"><span class="stars">★★★★☆</span><span class="rc">(742)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$28.00</span><span class="pold">$33.00</span></div><button class="atc" onclick="atc(this,'Micellar Bubble Cleanser',28)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$28.00</span><span class="pold">$33.00</span></div><button class="atc" onclick="atc(this,'Micellar Bubble Cleanser',28)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd1">
         <div class="pimgw" onclick="openPD('Retinol Night Repair', 62, 'Keratin Mask.jpg', 'Skincare')">
           <div class="pview"><span>View Details</span></div>
         <div class="part pa11"><div class="pcirc pctla pcu"></div><img src="../assets/Retinol Night Repair.jpg" alt="Retinol Night Repair" class="pimg"><div class="pcirc pcbra pcn"></div></div>
-        <div class="pbadges"><span class="badge bh">🔥 Hot</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bh">🔥 Hot</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Skincare</div><div class="pname">Retinol Night Repair</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(1,340)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$62.00</span></div><button class="atc" onclick="atc(this,'Retinol Night Repair',62)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$62.00</span></div><button class="atc" onclick="atc(this,'Retinol Night Repair',62)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd2">
         <div class="pimgw" onclick="openPD('Blur & Perfect Primer', 44, 'Jade Roller.jpg', 'Makeup')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa3"><div class="pcirc pctla pcu"></div><img src="../assets/Jade Roller.jpg" alt="Blur & Perfect Primer" class="pimg"><div class="pcirc pcbra pcp"></div></div>
-        <div class="pbadges"><span class="badge bv">⭐ VIP</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bv">⭐ VIP</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Makeup</div><div class="pname">Blur &amp; Perfect Primer</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(2,570)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$44.00</span><span class="pold">$55.00</span></div><button class="atc" onclick="atc(this,'Blur & Perfect Primer',44)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$44.00</span><span class="pold">$55.00</span></div><button class="atc" onclick="atc(this,'Blur & Perfect Primer',44)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd3">
         <div class="pimgw" onclick="openPD('Hydra-Boost Hair Mask', 34, 'Silk Eye Mask.jpg', 'Haircare')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa8"><div class="pcirc pctla pcn"></div><img src="../assets/Silk Eye Mask.jpg" alt="Hydra-Boost Hair Mask" class="pimg"><div class="pcirc pcbra pcg"></div></div>
-        <div class="pbadges"><span class="badge bn">New</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bn">New</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Haircare</div><div class="pname">Hydra-Boost Hair Mask</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(980)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$34.00</span></div><button class="atc" onclick="atc(this,'Hydra-Boost Hair Mask',34)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$34.00</span></div><button class="atc" onclick="atc(this,'Hydra-Boost Hair Mask',34)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
       <div class="pcard rev rd4">
         <div class="pimgw" onclick="openPD('Diamond Mist Body Spray', 45, 'Diamond Mist Body Spray.jpg', 'Fragrance')">
           <div class="pview"><span>View Details</span></div>
           <div class="part pa12"><div class="pcirc pctla pcg"></div><img src="../assets/Diamond Mist Body Spray.jpg" alt="Diamond Mist Body Spray" class="pimg"><div class="pcirc pcbra pcu"></div></div>
-        <div class="pbadges"><span class="badge bs">−25%</span></div><div class="pwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></div></div>
+        <div class="pbadges"><span class="badge bs">−25%</span></div><div class="pwish" onclick="tw(this)"><i class="bi bi-heart"></i></div></div>
         <div class="pinfo"><div class="pcat">Fragrance</div><div class="pname">Diamond Mist Body Spray</div>
         <div class="prat"><span class="stars">★★★★★</span><span class="rc">(1,120)</span></div>
-        <div class="pfoot"><div class="pprice"><span class="pcur">$45.00</span><span class="pold">$60.00</span></div><button class="atc" onclick="atc(this,'Diamond Mist Body Spray',45)"><i class="fa-solid fa-plus"></i></button></div></div>
+        <div class="pfoot"><div class="pprice"><span class="pcur">$45.00</span><span class="pold">$60.00</span></div><button class="atc" onclick="atc(this,'Diamond Mist Body Spray',45)"><i class="bi bi-plus"></i></button></div></div>
       </div>
 
     </div>
-    <div style="text-align:center;margin-top:2.8rem" class="rev"><a href="#" class="btn btn-op"><i class="fa-solid fa-grid-2"></i> View All Products</a></div>
+    <div style="text-align:center;margin-top:2.8rem" class="rev"><a href="#" class="btn btn-op"><i class="bi bi-grid"></i> View All Products</a></div>
   </div>
 </section>
 
@@ -708,117 +873,209 @@ footer{background:var(--fg);color:var(--fgt);padding:64px 0 32px}
     <div class="cwrap rev">
       <div class="ctrack" id="ctrack">
 
-        <div class="cslide"><div class="tcard"><div class="timg pa1" style="height:210px" onclick="openPD('Glow Essence Drops', 58, 'Cloud Foundation.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/Cloud Foundation.jpg" alt="Glow Essence Drops" class="pimg"><div class="tbadge"><i class="fa-solid fa-fire"></i> #1 Best Seller</div></div><div class="tinf"><div class="tname">Glow Essence Drops</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">5.0 (4.2k)</span></div><div class="tfoot"><span class="tprice">$58.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa1" style="height:210px" onclick="openPD('Glow Essence Drops', 58, 'Cloud Foundation.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/Cloud Foundation.jpg" alt="Glow Essence Drops" class="pimg"><div class="tbadge"><i class="bi bi-fire"></i> #1 Best Seller</div></div><div class="tinf"><div class="tname">Glow Essence Drops</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">5.0 (4.2k)</span></div><div class="tfoot"><span class="tprice">$58.00</span></div></div></div></div>
 
-        <div class="cslide"><div class="tcard"><div class="timg pa2" style="height:210px" onclick="openPD('Honey Butter Eye Cream', 44, 'Rose Elixir.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/Honey Butter Eye Cream.jpg" alt="Honey Butter Eye Cream" class="pimg"><div class="tbadge"><i class="fa-solid fa-star"></i> Staff Pick</div></div><div class="tinf"><div class="tname">Honey Butter Eye Cream</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.9 (2.8k)</span></div><div class="tfoot"><span class="tprice">$44.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa2" style="height:210px" onclick="openPD('Honey Butter Eye Cream', 44, 'Rose Elixir.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/Honey Butter Eye Cream.jpg" alt="Honey Butter Eye Cream" class="pimg"><div class="tbadge"><i class="bi bi-star"></i> Staff Pick</div></div><div class="tinf"><div class="tname">Honey Butter Eye Cream</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.9 (2.8k)</span></div><div class="tfoot"><span class="tprice">$44.00</span></div></div></div></div>
 
-        <div class="cslide"><div class="tcard"><div class="timg pa6" style="height:210px" onclick="openPD('Velvet Matte Lipstick', 32, 'Velvet Lip.jpg', 'Makeup')"><div class="pview"><span>View Details</span></div><img src="../assets/Velvet Matte Lipstick.jpg" alt="Velvet Matte Lipstick" class="pimg"><div class="tbadge"><i class="fa-solid fa-crown"></i> Iconic</div></div><div class="tinf"><div class="tname">Velvet Matte Lipstick</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.8 (3.5k)</span></div><div class="tfoot"><span class="tprice">$32.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa6" style="height:210px" onclick="openPD('Velvet Matte Lipstick', 32, 'Velvet Lip.jpg', 'Makeup')"><div class="pview"><span>View Details</span></div><img src="../assets/Velvet Matte Lipstick.jpg" alt="Velvet Matte Lipstick" class="pimg"><div class="tbadge"><i class="bi bi-trophy"></i> Iconic</div></div><div class="tinf"><div class="tname">Velvet Matte Lipstick</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.8 (3.5k)</span></div><div class="tfoot"><span class="tprice">$32.00</span></div></div></div></div>
 
-        <div class="cslide"><div class="tcard"><div class="timg pa4" style="height:210px" onclick="openPD('Argan Repair Treatment', 46, 'Argan Elixir.jpg', 'Haircare')"><div class="pview"><span>View Details</span></div><img src="../assets/Argan Elixir.jpg" alt="Argan Repair Treatment" class="pimg"><div class="tbadge"><i class="fa-solid fa-leaf"></i> Eco Choice</div></div><div class="tinf"><div class="tname">Argan Repair Treatment</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.9 (1.9k)</span></div><div class="tfoot"><span class="tprice">$46.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa4" style="height:210px" onclick="openPD('Argan Repair Treatment', 46, 'Argan Elixir.jpg', 'Haircare')"><div class="pview"><span>View Details</span></div><img src="../assets/Argan Elixir.jpg" alt="Argan Repair Treatment" class="pimg"><div class="tbadge"><i class="bi bi-flower1"></i> Eco Choice</div></div><div class="tinf"><div class="tname">Argan Repair Treatment</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.9 (1.9k)</span></div><div class="tfoot"><span class="tprice">$46.00</span></div></div></div></div>
 
-        <div class="cslide"><div class="tcard"><div class="timg pa9" style="height:210px" onclick="openPD('White Tea Parfum', 98, 'White Tea EDP.jpg', 'Fragrance')"><div class="pview"><span>View Details</span></div><img src="../assets/White Tea EDP.jpg" alt="White Tea Parfum" class="pimg"><div class="tbadge"><i class="fa-solid fa-gem"></i> Luxe</div></div><div class="tinf"><div class="tname">White Tea Parfum</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">5.0 (1.2k)</span></div><div class="tfoot"><span class="tprice">$98.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa9" style="height:210px" onclick="openPD('White Tea Parfum', 98, 'White Tea EDP.jpg', 'Fragrance')"><div class="pview"><span>View Details</span></div><img src="../assets/White Tea EDP.jpg" alt="White Tea Parfum" class="pimg"><div class="tbadge"><i class="bi bi-gem"></i> Luxe</div></div><div class="tinf"><div class="tname">White Tea Parfum</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">5.0 (1.2k)</span></div><div class="tfoot"><span class="tprice">$98.00</span></div></div></div></div>
 
-        <div class="cslide"><div class="tcard"><div class="timg pa5" style="height:210px" onclick="openPD('Illuminating Highlighter', 39, 'Cloud Foundation.jpg', 'Makeup')"><div class="pview"><span>View Details</span></div><img src="../assets/Illuminating Highlighter.jpg" alt="Illuminating Highlighter" class="pimg"><div class="tbadge"><i class="fa-solid fa-fire"></i> Trending</div></div><div class="tinf"><div class="tname">Illuminating Highlighter</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.9 (2.1k)</span></div><div class="tfoot"><span class="tprice">$39.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa5" style="height:210px" onclick="openPD('Illuminating Highlighter', 39, 'Cloud Foundation.jpg', 'Makeup')"><div class="pview"><span>View Details</span></div><img src="../assets/Illuminating Highlighter.jpg" alt="Illuminating Highlighter" class="pimg"><div class="tbadge"><i class="bi bi-lightning-charge"></i> Trending</div></div><div class="tinf"><div class="tname">Illuminating Highlighter</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.9 (2.1k)</span></div><div class="tfoot"><span class="tprice">$39.00</span></div></div></div></div>
 
-        <div class="cslide"><div class="tcard"><div class="timg pa11" style="height:210px" onclick="openPD('Peptide Night Cream', 72, 'Keratin Mask.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/Peptide Night Cream.jpg" alt="Peptide Night Cream" class="pimg"><div class="tbadge"><i class="fa-solid fa-moon"></i> Night Hero</div></div><div class="tinf"><div class="tname">Peptide Night Cream</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">5.0 (3.3k)</span></div><div class="tfoot"><span class="tprice">$72.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa11" style="height:210px" onclick="openPD('Peptide Night Cream', 72, 'Keratin Mask.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/Peptide Night Cream.jpg" alt="Peptide Night Cream" class="pimg"><div class="tbadge"><i class="bi bi-moon"></i> Night Hero</div></div><div class="tinf"><div class="tname">Peptide Night Cream</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">5.0 (3.3k)</span></div><div class="tfoot"><span class="tprice">$72.00</span></div></div></div></div>
 
-        <div class="cslide"><div class="tcard"><div class="timg pa3" style="height:210px" onclick="openPD('12-Pan Eyeshadow Palette', 65, 'Santal Bloom.jpg', 'Makeup')"><div class="pview"><span>View Details</span></div><img src="../assets/Pan Eyeshadow Palette.jpg" alt="12-Pan Eyeshadow Palette" class="pimg"><div class="tbadge"><i class="fa-solid fa-palette"></i> Colour Pop</div></div><div class="tinf"><div class="tname">12-Pan Eyeshadow Palette</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.8 (4.7k)</span></div><div class="tfoot"><span class="tprice">$65.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa3" style="height:210px" onclick="openPD('12-Pan Eyeshadow Palette', 65, 'Santal Bloom.jpg', 'Makeup')"><div class="pview"><span>View Details</span></div><img src="../assets/Pan Eyeshadow Palette.jpg" alt="12-Pan Eyeshadow Palette" class="pimg"><div class="tbadge"><i class="bi bi-palette"></i> Colour Pop</div></div><div class="tinf"><div class="tname">12-Pan Eyeshadow Palette</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.8 (4.7k)</span></div><div class="tfoot"><span class="tprice">$65.00</span></div></div></div></div>
 
-        <div class="cslide"><div class="tcard"><div class="timg pa8" style="height:210px" onclick="openPD('HA Plumping Toner', 36, 'Sea Salt Scrub.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/HA Plumping Toner.jpg" alt="HA Plumping Toner" class="pimg"><div class="tbadge"><i class="fa-solid fa-droplet"></i> Hydration+</div></div><div class="tinf"><div class="tname">HA Plumping Toner</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.9 (1.6k)</span></div><div class="tfoot"><span class="tprice">$36.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa8" style="height:210px" onclick="openPD('HA Plumping Toner', 36, 'Sea Salt Scrub.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/HA Plumping Toner.jpg" alt="HA Plumping Toner" class="pimg"><div class="tbadge"><i class="bi bi-droplet"></i> Hydration+</div></div><div class="tinf"><div class="tname">HA Plumping Toner</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">4.9 (1.6k)</span></div><div class="tfoot"><span class="tprice">$36.00</span></div></div></div></div>
 
-        <div class="cslide"><div class="tcard"><div class="timg pa10" style="height:210px" onclick="openPD('Vitamin C Brightening Kit', 85, 'Jade Roller.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/Vitamin C Brightening Kit.jpg" alt="Vitamin C Brightening Kit" class="pimg"><div class="tbadge"><i class="fa-solid fa-sparkles"></i> Clean Beauty</div></div><div class="tinf"><div class="tname">Vitamin C Brightening Kit</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">5.0 (5.1k)</span></div><div class="tfoot"><span class="tprice">$85.00</span></div></div></div></div>
+        <div class="cslide"><div class="tcard"><div class="timg pa10" style="height:210px" onclick="openPD('Vitamin C Brightening Kit', 85, 'Jade Roller.jpg', 'Skincare')"><div class="pview"><span>View Details</span></div><img src="../assets/Vitamin C Brightening Kit.jpg" alt="Vitamin C Brightening Kit" class="pimg"><div class="tbadge"><i class="bi bi-stars"></i> Clean Beauty</div></div><div class="tinf"><div class="tname">Vitamin C Brightening Kit</div><div class="trat"><span class="stars">★★★★★</span><span style="color:var(--ts)">5.0 (5.1k)</span></div><div class="tfoot"><span class="tprice">$85.00</span></div></div></div></div>
 
       </div>
     </div>
     <div class="ccontrols">
-      <button class="cbtn" id="cprev"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="cbtn" id="cprev"><i class="bi bi-chevron-left"></i></button>
       <div class="cdots" id="cdots"></div>
-      <button class="cbtn" id="cnext"><i class="fa-solid fa-chevron-right"></i></button>
+      <button class="cbtn" id="cnext"><i class="bi bi-chevron-right"></i></button>
     </div>
   </div>
 </section>
 
-<!-- ================================================
-     NEWSLETTER
-     ================================================ -->
-<section id="newsletter">
-  <div class="container">
-    <div class="nlinn rev">
-      <div class="nlico">💌</div>
-      <div class="eyebrow" style="justify-content:center">Stay in the Loop</div>
-      <h2 class="stit">Beauty Tips &amp; Exclusive Offers</h2>
-      <p class="ssub">Join 50,000+ beauty lovers who receive weekly skincare rituals, tutorials, and member-only discounts.</p>
-      <div class="nlform">
-        <input id="nlemail" type="email" placeholder="Your email address…"/>
-        <button class="btn btn-pink" onclick="subNL()">Subscribe <i class="fa-solid fa-paper-plane"></i></button>
-      </div>
-      <p class="nlnote">🔒 No spam, ever. Unsubscribe anytime. <a href="#" style="color:var(--pk500)">Privacy Policy</a></p>
-    </div>
-  </div>
-</section>
-
-<!-- ================================================
-     FOOTER — DARK GREEN
-     ================================================ -->
-<footer>
-  <div class="container">
-    <div class="fgrid">
-      <div>
-        <div class="fbrand">Lumière<span class="fbd"></span></div>
-        <p class="fdesc">Luxury beauty powered by nature. We believe every person deserves to feel radiant, confident and beautiful — sustainably sourced and ethically crafted.</p>
-        <div class="socrow">
-          <a href="#" class="slnk"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" class="slnk"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" class="slnk"><i class="fa-brands fa-tiktok"></i></a>
-          <a href="#" class="slnk"><i class="fa-brands fa-pinterest-p"></i></a>
-          <a href="#" class="slnk"><i class="fa-brands fa-youtube"></i></a>
+<footer class="um-footer mt-5">
+    <div class="container">
+        <div class="um-footer-grid">
+            <div class="um-footer-brand">
+                <div class="um-footer-logo">Urban<span>mart</span><span class="um-footer-dot">.</span></div>
+                <p class="um-footer-tagline">Premium products, curated with care.<br>Delivered to your doorstep across India.</p>
+                <div class="um-footer-socials">
+                    <a href="#" class="um-social-btn" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="um-social-btn" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="um-social-btn" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="um-social-btn" title="YouTube"><i class="bi bi-youtube"></i></a>
+                    <a href="#" class="um-social-btn" title="Pinterest"><i class="bi bi-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="um-footer-col">
+                <h6 class="um-footer-col-head">Shop</h6>
+                <ul class="um-footer-links">
+                    <li><a href="#">Fashion &amp; Clothing</a></li>
+                    <li><a href="#">Mobiles &amp; Tablets</a></li>
+                    <li><a href="#">Electronics</a></li>
+                    <li><a href="#">Home &amp; Furniture</a></li>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Sale</a></li>
+                </ul>
+            </div>
+            <div class="um-footer-col">
+                <h6 class="um-footer-col-head">Help</h6>
+                <ul class="um-footer-links">
+                    <li><a href="#">Track Order</a></li>
+                    <li><a href="#">Returns &amp; Refunds</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="um-footer-col">
+                <h6 class="um-footer-col-head">Company</h6>
+                <ul class="um-footer-links">
+                    <li><a href="about.html">About UrbanMart</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="seller.html">Partner with Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms &amp; Conditions</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="fbadgerow">
-          <span class="fbadge"><i class="fa-solid fa-leaf"></i>Cruelty-Free</span>
-          <span class="fbadge"><i class="fa-solid fa-recycle"></i>Eco Packaging</span>
-          <span class="fbadge"><i class="fa-solid fa-shield-heart"></i>Derm Tested</span>
+        <div class="um-footer-divider"></div>
+        <div class="um-footer-bottom">
+            <p class="um-footer-copy">© 2026 UrbanMart. All rights reserved. Made with <i class="bi bi-heart-fill" style="color:#e87a7a;font-size:0.75rem;"></i> in India.</p>
+            <div class="um-payment-badges">
+                <span class="um-pay-badge">VISA</span>
+                <span class="um-pay-badge">MC</span>
+                <span class="um-pay-badge">UPI</span>
+                <span class="um-pay-badge">PayTM</span>
+                <span class="um-pay-badge">COD</span>
+            </div>
         </div>
-      </div>
-      <div>
-        <div class="fttl">Quick Links</div>
-        <ul class="flinks">
-          <li><a href="#">Home</a></li><li><a href="#">Shop All</a></li>
-          <li><a href="#">New Arrivals</a></li><li><a href="#">Bestsellers</a></li>
-          <li><a href="#">Gift Sets</a></li><li><a href="#">Blog &amp; Tutorials</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="fttl">Customer Care</div>
-        <ul class="flinks">
-          <li><a href="#">FAQ</a></li><li><a href="#">Shipping &amp; Returns</a></li>
-          <li><a href="#">Track My Order</a></li><li><a href="#">Store Locator</a></li>
-          <li><a href="#">Gift Cards</a></li><li><a href="#">Loyalty Programme</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="fttl">Contact Us</div>
-        <div class="fcontact">
-          <div class="fci"><i class="fa-solid fa-location-dot"></i><span>12 Rue de la Paix, Paris 75001, France</span></div>
-          <div class="fci"><i class="fa-solid fa-phone"></i><span>+33 1 42 00 00 00</span></div>
-          <div class="fci"><i class="fa-solid fa-envelope"></i><span>hello@lumiere-beauty.com</span></div>
-          <div class="fci"><i class="fa-solid fa-clock"></i><span>Mon–Fri: 9:00 – 18:00 CET</span></div>
-        </div>
-      </div>
     </div>
-    <div class="fdiv"></div>
-    <div class="fbot">
-      <span>© 2024 Lumière Beauty. All rights reserved.</span>
-      <div class="fblinks"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Settings</a></div>
-    </div>
-  </div>
 </footer>
 
+<!-- Favourites Drawer -->
+<div class="fav-backdrop" id="favBackdrop" onclick="toggleFavDrawer()"></div>
+<div class="fav-drawer" id="favDrawer">
+    <div class="fav-drawer-head">
+        <div class="fav-drawer-title">
+            <i class="bi bi-heart-fill" style="color:#e11d48;"></i>
+            Favourites
+            <span class="fav-drawer-count" id="favDrawerCount">0</span>
+        </div>
+        <button class="fav-drawer-close" onclick="toggleFavDrawer()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="fav-drawer-body" id="favDrawerBody">
+        <div class="fav-empty" id="favEmpty">
+            <div class="fav-empty-icon"><i class="bi bi-heart"></i></div>
+            <h5>Nothing saved yet</h5>
+            <p>Tap the heart on any product to save it here.</p>
+        </div>
+        <div class="fav-grid" id="favGrid"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-/* ── Hero Slider ── */
+/* ── UI Logic from style.css/index.html ── */
+let settingsOpen = false;
+function toggleSettings() {
+    settingsOpen = !settingsOpen;
+    const panel = document.getElementById('settingsPanel');
+    const btn = document.getElementById('settingsBtn');
+    if (panel) panel.classList.toggle('open', settingsOpen);
+    if (btn) btn.classList.toggle('active', settingsOpen);
+    document.getElementById('navBackdrop')?.classList.toggle('active', settingsOpen);
+}
+function closeSettings() {
+    settingsOpen = false;
+    document.getElementById('settingsPanel')?.classList.remove('open');
+    document.getElementById('settingsBtn')?.classList.remove('active');
+}
+function toggleSetting(id) { document.getElementById('toggle-' + id)?.classList.toggle('on'); }
+
+let mobileOpen = false, searchOpen = false;
+function toggleMobile() {
+    mobileOpen = !mobileOpen;
+    const panel = document.getElementById('mobilePanel');
+    const icon = document.getElementById('hamburgerIcon');
+    const backdrop = document.getElementById('navBackdrop');
+    if (mobileOpen) {
+        if (panel) { panel.style.display = 'flex'; requestAnimationFrame(() => panel.classList.add('open')); }
+        if (icon) icon.className = 'bi bi-x-lg';
+        backdrop?.classList.add('active');
+    } else { closeMobile(); }
+}
+function closeMobile() {
+    mobileOpen = false;
+    const panel = document.getElementById('mobilePanel');
+    const icon = document.getElementById('hamburgerIcon');
+    if (panel) {
+        panel.classList.remove('open');
+        setTimeout(() => { if (!mobileOpen) panel.style.display = 'none'; }, 350);
+    }
+    if (icon) icon.className = 'bi bi-list';
+}
+function closeAll() { closeMobile(); closeSettings(); document.getElementById('navBackdrop')?.classList.remove('active'); }
+function toggleSearch() {
+    searchOpen = !searchOpen;
+    const overlay = document.getElementById('searchOverlay');
+    if (overlay) overlay.classList.toggle('active', searchOpen);
+    if (searchOpen) setTimeout(() => document.getElementById('searchInput')?.focus(), 300);
+}
+function clearNavSearch() {
+    const input = document.getElementById('navSearchInput');
+    const clear = document.getElementById('navSearchClear');
+    if (input) input.value = '';
+    clear?.classList.remove('visible');
+    input?.focus();
+}
+
+// --- CART STATE ---
+let cartDB;
+const cartRequest = indexedDB.open('PBSSDCartDB', 1);
+cartRequest.onsuccess = (e) => { cartDB = e.target.result; refreshCartBadge(); };
+function refreshCartBadge() {
+    if (!cartDB) return;
+    const tx = cartDB.transaction(['cart_state'], 'readonly');
+    const store = tx.objectStore('cart_state');
+    const getReq = store.get('count');
+    getReq.onsuccess = () => {
+        const badge = document.getElementById('cart-badge');
+        if (badge) badge.innerText = getReq.result || 0;
+    };
+}
+
+function checkAuth() {
+    const user = JSON.parse(localStorage.getItem('pbssd_user'));
+    const loginNav = document.getElementById('login-nav-btn');
+    const profileNav = document.getElementById('user-profile-btn');
+    const nameDesktop = document.getElementById('user-nav-name');
+    if (user) {
+        loginNav?.classList.add('d-none');
+        profileNav?.classList.remove('d-none');
+        if (nameDesktop) nameDesktop.innerText = user.name || 'Profile';
+    }
+}
+
+/* ── Beauty Specific Hero Slider ── */
 const htrack=document.getElementById('htrack');
 const hslides=document.querySelectorAll('.hslide');
 const hdots=document.querySelectorAll('.hdot');
-const hstrips=document.querySelectorAll('.hsi');
 let hi=0,hTimer;
 function goH(idx){
   hslides[hi].classList.remove('act');
@@ -826,14 +1083,12 @@ function goH(idx){
   hslides[hi].classList.add('act');
   htrack.style.transform=`translateX(-${hi*100}%)`;
   hdots.forEach((d,i)=>d.classList.toggle('active',i===hi));
-  hstrips.forEach((s,i)=>s.classList.toggle('active',i===hi));
 }
 function startH(){clearInterval(hTimer);hTimer=setInterval(()=>goH(hi+1),5200)}
 hslides[0].classList.add('act');
 document.getElementById('hnext').addEventListener('click',()=>{goH(hi+1);startH()});
 document.getElementById('hprev').addEventListener('click',()=>{goH(hi-1);startH()});
 hdots.forEach(d=>d.addEventListener('click',()=>{goH(+d.dataset.i);startH()}));
-hstrips.forEach(s=>s.addEventListener('click',()=>{goH(+s.dataset.i);startH()}));
 let htx=0;
 htrack.addEventListener('touchstart',e=>htx=e.touches[0].clientX,{passive:true});
 htrack.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-htx;if(Math.abs(dx)>40){goH(hi+(dx<0?1:-1));startH()}},{passive:true});
@@ -854,16 +1109,30 @@ pdClose.addEventListener('click', () => pdOverlay.classList.remove('open'));
 pdOverlay.addEventListener('click', e => { if(e.target === pdOverlay) pdOverlay.classList.remove('open'); });
 
 function atc(btn,name,price){
-  btn.classList.add('added','pop');btn.innerHTML='<i class="fa-solid fa-check"></i>';
+  // Update badge count in UI
+  const badge = document.getElementById('cart-badge');
+  if (badge) {
+      let count = parseInt(badge.innerText) || 0;
+      count++;
+      badge.innerText = count;
+      
+      // Update IndexedDB for persistence across pages
+      if (cartDB) {
+          const tx = cartDB.transaction(['cart_state'], 'readwrite');
+          tx.objectStore('cart_state').put(count, 'count');
+      }
+  }
+
+  btn.classList.add('added','pop');btn.innerHTML='<i class="bi bi-check"></i>';
   showT(`${name} added!`);
-  setTimeout(()=>{btn.classList.remove('added','pop');btn.innerHTML='<i class="fa-solid fa-plus"></i>'},2000);
+  setTimeout(()=>{btn.classList.remove('added','pop');btn.innerHTML='<i class="bi bi-plus"></i>'},2000);
 }
 
 /* ── Wishlist ── */
 function tw(el){
   el.classList.toggle('active');
-  el.querySelector('i').className=el.classList.contains('active')?'fa-solid fa-heart':'fa-regular fa-heart';
-  showT(el.classList.contains('active')?'Added to wishlist ♥':'Removed from wishlist');
+  el.querySelector('i').className=el.classList.contains('active')?'bi bi-heart-fill':'bi bi-heart';
+  showT(el.classList.contains('active')?'Added to wishlist':'Removed from wishlist');
 }
 
 /* ── Toast ── */
@@ -896,13 +1165,31 @@ setInterval(()=>goC(cur<Math.ceil(cslides.length/vis)-1?cur+1:0),4200);
 window.addEventListener('resize',()=>{vis=getV();cur=0;ctrack.style.transform='translateX(0)';buildD()});
 buildD();
 
-/* ── Newsletter ── */
-function subNL(){const e=document.getElementById('nlemail').value;if(!e||!e.includes('@')){showT('Please enter a valid email ✉️');return}showT('Welcome to Lumière! ✨');document.getElementById('nlemail').value=''}
-
 /* ── Scroll Reveal ── */
 const revEls=document.querySelectorAll('.rev');
 const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{threshold:.1});
 revEls.forEach(el=>io.observe(el));
+
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    setTimeout(() => { if (preloader) { preloader.style.opacity = '0'; preloader.style.visibility = 'hidden'; } }, 1000);
+    AOS.init({ duration: 900, once: true, offset: 80, easing: 'ease-out-cubic' });
+    checkAuth();
+
+    const nav = document.querySelector('.navbar');
+    const catBar = document.getElementById('categoryNavBar');
+    const updatePos = () => {
+        if (!nav || !catBar) return;
+        const navH = nav.getBoundingClientRect().height;
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled'); catBar.classList.add('scrolled'); catBar.style.top = (navH - 10) + 'px';
+        } else {
+            nav.classList.remove('scrolled'); catBar.classList.remove('scrolled'); catBar.style.top = (navH + 4) + 'px';
+        }
+    };
+    window.addEventListener('scroll', updatePos);
+    updatePos();
+});
 </script>
 </body>
 </html>
