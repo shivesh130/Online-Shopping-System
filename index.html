@@ -1879,8 +1879,10 @@
                         <i class="bi bi-bag"></i>
                         <span class="cart-badge" id="cart-badge">0</span>
                     </button>
-                    <a class="nav-login-btn" href="visual/template/login.html"><i class="bi bi-person-circle"></i>
+                    <a id="login-nav-btn" class="nav-login-btn" href="visual/template/login.html"><i class="bi bi-person-circle"></i>
                         Login</a>
+                    <a id="user-profile-btn" class="nav-login-btn d-none" href="visual/template/account.html"><i class="bi bi-person-circle"></i>
+                        <span id="user-nav-name">Profile</span></a>
                     <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i
                             class="bi bi-list" id="hamburgerIcon"></i></button>
                 </div>
@@ -1932,8 +1934,10 @@
         <a class="mobile-nav-link" href="#shop" onclick="closeAll()"><i class="bi bi-bag"></i> Shop</a>
         <a class="mobile-nav-link" href="visual/template/seller.html"><i class="bi bi-shop"></i> Partner with us</a>
         <div class="mobile-nav-divider"></div>
-        <a class="mobile-fab-btn login" href="visual/template/login.html" style="border-radius:12px;"><i
+        <a id="login-nav-btn-mobile" class="mobile-fab-btn login" href="visual/template/login.html" style="border-radius:12px;"><i
                 class="bi bi-person-circle"></i> Login</a>
+        <a id="user-profile-btn-mobile" class="mobile-fab-btn login d-none" href="visual/template/account.html" style="border-radius:12px;"><i
+                class="bi bi-person-circle"></i> <span id="user-nav-name-mobile">Profile</span></a>
     </div>
 
     <!-- What's New -->
@@ -2891,12 +2895,6 @@
             input?.focus();
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const input = document.getElementById('navSearchInput');
-            const clear = document.getElementById('navSearchClear');
-            input?.addEventListener('input', () => clear?.classList.toggle('visible', input.value.length > 0));
-        });
-
         // --- CART STATE LOGIC (IndexedDB) ---
         let cartDB;
         const cartRequest = indexedDB.open('PBSSDCartDB', 1);
@@ -2988,23 +2986,36 @@
             const user = JSON.parse(localStorage.getItem('pbssd_user'));
             const loginNav = document.getElementById('login-nav-btn');
             const profileNav = document.getElementById('user-profile-btn');
-            const logoutNav = document.getElementById('logout-btn');
+            const loginNavMobile = document.getElementById('login-nav-btn-mobile');
+            const profileNavMobile = document.getElementById('user-profile-btn-mobile');
+            const nameDesktop = document.getElementById('user-nav-name');
+            const nameMobile = document.getElementById('user-nav-name-mobile');
+
             if (user) {
                 loginNav?.classList.add('d-none');
+                loginNavMobile?.classList.add('d-none');
                 profileNav?.classList.remove('d-none');
-                logoutNav?.classList.remove('d-none');
-                const n = document.getElementById('user-nav-name');
-                if (n) n.innerText = user.name;
+                profileNavMobile?.classList.remove('d-none');
+                if (nameDesktop) nameDesktop.innerText = user.name || 'Profile';
+                if (nameMobile) nameMobile.innerText = user.name || 'Profile';
                 if (user.photo) {
                     const img = document.getElementById('user-nav-photo');
                     if (img) { img.src = user.photo; img.style.display = 'inline-block'; }
                 }
             } else {
                 loginNav?.classList.remove('d-none');
+                loginNavMobile?.classList.remove('d-none');
                 profileNav?.classList.add('d-none');
-                logoutNav?.classList.add('d-none');
+                profileNavMobile?.classList.add('d-none');
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('navSearchInput');
+            const clear = document.getElementById('navSearchClear');
+            input?.addEventListener('input', () => clear?.classList.toggle('visible', input.value.length > 0));
+            checkAuth();
+        });
 
         document.getElementById('modalLoginForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
