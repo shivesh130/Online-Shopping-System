@@ -60,7 +60,7 @@ def add_product():
 
 @app.route('/payment')
 def payment_gateway():
-    return render_template('payment_gateway.html')
+    return render_template('../templates/payment_gateway.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
