@@ -163,14 +163,14 @@
             checkWishlist();
 
             likeBtn.addEventListener('click', () => {
-                const index = wishlist.findIndex(item => item.name === name);
+                const index = wishlist.indexOf(productId);
                 if (index === -1) {
-                    wishlist.push({ name, price, img });
+                    wishlist.push(productId);
                     Swal.fire({ title: 'Saved!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500, icon: 'success' });
                 } else {
                     wishlist.splice(index, 1);
                 }
-                localStorage.setItem('pbssd_wishlist', JSON.stringify(wishlist));
+                localStorage.setItem('pbssd_mobile_favs', JSON.stringify(wishlist));
                 checkWishlist();
             });
 
@@ -191,18 +191,18 @@
                     const getReq = store.getAll();
                     getReq.onsuccess = () => {
                         const items = getReq.result;
-                        const existingItem = items.find(i => i.name === name);
+                        const existingItem = items.find(i => i.name === product.name);
                         if (existingItem) {
                             existingItem.quantity = (existingItem.quantity || 1) + 1;
                             store.put(existingItem);
                         } else {
-                            store.add({ name, price, img, quantity: 1, timestamp: Date.now() });
+                            store.add({ name: product.name, price: product.price, img: product.image, quantity: 1, timestamp: Date.now() });
                         }
                         
                         atcBtn.innerHTML = '<i class="fas fa-check"></i> ADDED';
                         atcBtn.style.background = '#5A8A5A';
                         atcBtn.style.color = '#fff';
-                        Swal.fire({ title: 'Added to bag!', text: `${name} is ready for checkout.`, icon: 'success', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500 });
+                        Swal.fire({ title: 'Added to bag!', text: `${product.name} is ready for checkout.`, icon: 'success', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500 });
                         setTimeout(() => {
                             atcBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> ADD TO BAG';
                             atcBtn.style.background = '';
@@ -212,9 +212,9 @@
 
                     tx.oncomplete = () => {
                         let lsCart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
-                        const exLs = lsCart.find(i => i.name === name);
+                        const exLs = lsCart.find(i => i.id === productId);
                         if (exLs) exLs.quantity = (exLs.quantity || 1) + 1;
-                        else lsCart.push({ id: Date.now(), name, price, image: img, quantity: 1 });
+                        else lsCart.push({ id: productId, name: product.name, price: product.price, image: product.image, quantity: 1 });
                         localStorage.setItem('pbssd_cart', JSON.stringify(lsCart));
                     };
                 }

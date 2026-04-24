@@ -96,19 +96,25 @@
     }
 
     .slide-0 {
-      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1604671871544-c523154333c7?auto=format&fit=crop&q=80&w=2000');
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1696041756125-257354c459a9?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNhbXN1bmclMjBtb2JpbGVzJTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D');
       background-size: cover;
       background-position: center;
     }
 
     .slide-1 {
-      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1546054454-aa26a3479857?auto=format&fit=crop&q=80&w=2000');
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1770740383117-52ef1e0d8dc8?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aXBob25lJTIwbW9iaWxlcyUyMGltYWdlfGVufDB8fDB8fHww');
       background-size: cover;
       background-position: center;
     }
 
     .slide-2 {
-      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1592840331052-16e15c2c6f95?auto=format&fit=crop&q=80&w=2000');
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1677086626278-efe3e5b8af12?auto=format&fit=crop&q=80&w=2000');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .slide-3 {
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=2000');
       background-size: cover;
       background-position: center;
     }
@@ -169,61 +175,6 @@
       transform: translateY(-1px);
     }
 
-    /* Product cards inside slider */
-    .slide-products {
-      flex: 0 0 auto;
-      display: flex;
-      gap: 1rem;
-      z-index: 2;
-      align-items: center;
-    }
-
-    .slide-pcard {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 14px;
-      padding: 1.2rem 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.45rem;
-      width: 140px;
-      text-align: center;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.25s;
-      cursor: pointer;
-    }
-
-    .slide-pcard:hover {
-      transform: translateY(-5px);
-    }
-
-    .slide-pcard .sp-emoji {
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .slide-pcard .sp-emoji img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .slide-pcard .sp-name {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--black);
-    }
-
-    .slide-pcard .sp-price {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--primary-mobile);
-    }
-
     .slider-arrow {
       position: absolute;
       top: 50%;
@@ -241,6 +192,14 @@
       font-size: 1.1rem;
       color: var(--primary-mobile);
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .arrow-prev {
+      left: 24px;
+    }
+
+    .arrow-next {
+      right: 24px;
     }
 
     .slider-dots {
@@ -787,64 +746,53 @@
   <div class="hero-slider">
     <div class="slides-track" id="slidesTrack">
 
-      <!-- SLIDE 1 — Latest Smartphones -->
+      <!-- SLIDE 1 — Samsung Advertisement -->
       <div class="slide slide-0">
         <div class="slide-content">
-          <span class="slide-tag">🚀 Unleash the Future</span>
-          <h1>Experience the next<br /><em>generation of mobile</em>.</h1>
-          <p>Discover cutting-edge smartphones with advanced cameras, powerful processors, and stunning displays.</p>
+          <span class="slide-tag">🌌 Galaxy AI is Here</span>
+          <h1>Samsung <em>S24 Ultra</em>.<br />The New Standard.</h1>
+          <p>Experience the peak of mobile innovation. Circle to Search, Live Translate, and Note Assist — all powered by Galaxy AI.</p>
           <div class="slide-actions">
-            <button class="btn-primary-mobile" data-target="smartphones">Shop Smartphones →</button>
+            <button class="btn-primary-mobile" data-target="smartphones">Explore Samsung →</button>
           </div>
         </div>
-        <div class="slide-products">
-          <div class="slide-pcard">
-            <div class="sp-emoji"><img src="https://images.unsplash.com/photo-1604671871544-c523154333c7?auto=format&fit=crop&w=100&q=80" alt="Smartphone"></div>
-            <div class="sp-name">Flagship Pro</div>
-            <div class="sp-price">₹79,999</div>
-          </div>
-          <div class="slide-pcard">
-            <div class="sp-emoji"><img src="https://images.unsplash.com/photo-1592840331052-16e15c2c6f95?auto=format&fit=crop&w=100&q=80" alt="Smartphone"></div>
-            <div class="sp-name">Ultra Max</div>
-            <div class="sp-price">₹1,09,999</div>
-          </div>
-        </div>
+        
+      
       </div>
 
-      <!-- SLIDE 2 — Wearable Tech -->
+      <!-- SLIDE 2 — Apple Advertisement -->
       <div class="slide slide-1">
         <div class="slide-content">
-          <span class="slide-tag">⌚ Wearable Tech</span>
-          <h1>Stay connected,<br /><em>stay active</em>.</h1>
-          <p>Explore smartwatches and fitness trackers that seamlessly integrate into your digital life.</p>
+          <span class="slide-tag">Titanium Innovation</span>
+          <h1>iPhone 15 Pro.<br /><em>Forged in Titanium</em>.</h1>
+          <p>The first iPhone to feature an aerospace-grade titanium design. Incredible performance with the A17 Pro chip.</p>
           <div class="slide-actions">
-            <button class="btn-primary-mobile" data-target="wearables">Explore Wearables →</button>
+            <button class="btn-primary-mobile" data-target="smartphones">Shop iPhone →</button>
           </div>
         </div>
-        <div class="slide-products">
-          <div class="slide-pcard">
-            <div class="sp-emoji"><img src="https://images.unsplash.com/photo-1546054454-aa26a3479857?auto=format&fit=crop&w=100&q=80" alt="Smartwatch"></div>
-            <div class="sp-name">SmartWatch X</div>
-            <div class="sp-price">₹18,999</div>
+        
+      </div>
+
+      <!-- SLIDE 3 — Performance Brands (Realme) -->
+      <div class="slide slide-2">
+        <div class="slide-content">
+          <span class="slide-tag">⚡ Performance Unleashed</span>
+          <h1>Realme & <em>Motorola</em>.<br />Speed Meets Design.</h1>
+          <p>Discover the latest disruptors from Realme and Motorola. Ultra-fast charging and pure Android experiences.</p>
+          <div class="slide-actions">
+            <button class="btn-primary-mobile" data-target="smartphones">View More →</button>
           </div>
         </div>
       </div>
 
-      <!-- SLIDE 3 — Pro Tablets -->
-      <div class="slide slide-2">
+      <!-- SLIDE 4 — Poco & Nothing Advertisement -->
+      <div class="slide slide-3">
         <div class="slide-content">
-          <span class="slide-tag">💻 Pro Productivity</span>
-          <h1>Work and play<br /><em>anywhere</em>.</h1>
-          <p>Unmatched performance and portability with our range of high-end tablets and hybrid devices.</p>
+          <span class="slide-tag">💎 Bold Disruptors</span>
+          <h1>Poco & <em>Nothing</em>.<br />Think Differently.</h1>
+          <p>Transparent aesthetics meet extreme performance. Stand out from the crowd with the boldest designs in tech.</p>
           <div class="slide-actions">
-            <button class="btn-primary-mobile" data-target="tablets">Explore Tablets →</button>
-          </div>
-        </div>
-        <div class="slide-products">
-          <div class="slide-pcard">
-            <div class="sp-emoji"><img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=100&q=80" alt="Tablet"></div>
-            <div class="sp-name">Tab Air M2</div>
-            <div class="sp-price">₹54,900</div>
+            <button class="btn-primary-mobile" data-target="smartphones">Discover More →</button>
           </div>
         </div>
       </div>
@@ -860,135 +808,46 @@
     <p class="section-label">Find Your Device</p>
     <h2 class="section-title">Shop by Category</h2>
     <div class="pills">
-      <button class="pill active" data-target="all">📱 All Mobiles</button>
-      <button class="pill" data-target="smartphones">📲 Smartphones</button>
-      <button class="pill" data-target="tablets">Tablets</button>
-      <button class="pill" data-target="accessories">🎧 Accessories</button>
-      <button class="pill" data-target="wearables">⌚ Wearables</button>
-      <button class="pill">🔊 Audio</button>
+      <button class="pill active" data-brand="all">All Mobiles</button>
+      <button class="pill" data-brand="samsung">Samsung</button>
+      <button class="pill" data-brand="iphone">iPhone</button>
+      <button class="pill" data-brand="realme">Realme</button>
+      <button class="pill" data-brand="motorola">Motorola</button>
+      <button class="pill" data-brand="poco">Poco</button>
+      <button class="pill" data-brand="nothing">Nothing</button>
+      <button class="pill" data-brand="mi">Mi</button>
+      <button class="pill" data-brand="tecno">Tecno</button>
+      <button class="pill" data-brand="cmf">CMF</button>
+      <button class="pill" data-brand="redmi">Redmi</button>
+      <button class="pill" data-brand="accessories">Accessories</button>
     </div>
 
     <!-- SMARTPHONES -->
-    <p id="smartphones" class="section-label">Smartphones</p>
-    <h3 class="section-title" style="font-size:1.3rem;">Latest & Greatest</h3>
-    <div class="product-grid">
-      <div class="product-card">
-        <div class="product-img"><img src="https://images.unsplash.com/photo-1604671871544-c523154333c7?auto=format&fit=crop&q=80&w=400" alt="Smartphone"><span class="product-badge">NEW</span></div>
-        <div class="product-info">
-          <h3>Flagship Pro 2024</h3>
-          <div class="sub">12GB RAM · 256GB Storage</div>
-          <div class="product-footer">
-            <span class="price">₹79,999</span>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-img"><img src="https://images.unsplash.com/photo-1592840331052-16e15c2c6f95?auto=format&fit=crop&q=80&w=400" alt="Smartphone"></div>
-        <div class="product-info">
-          <h3>Ultra Max 5G</h3>
-          <div class="sub">16GB RAM · 512GB Storage</div>
-          <div class="product-footer">
-            <span class="price">₹1,09,999</span>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-img"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=400" alt="Smartphone"></div>
-        <div class="product-info">
-          <h3>Galaxy Pro S24</h3>
-          <div class="sub">8GB RAM · 128GB Storage</div>
-          <div class="product-footer">
-            <span class="price">₹64,999</span>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-img"><img src="https://images.unsplash.com/photo-1546054454-aa26a3479857?auto=format&fit=crop&q=80&w=400" alt="Smartphone"></div>
-        <div class="product-info">
-          <h3>Pixel Infinity</h3>
-          <div class="sub">12GB RAM · 256GB Storage</div>
-          <div class="product-footer">
-            <span class="price">₹72,999</span>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
+    <div class="brand-section" id="smartphones-section">
+      <p class="section-label">Smartphones</p>
+      <h3 class="section-title" style="font-size:1.3rem;">Latest & Greatest</h3>
+      <div class="product-grid"></div>
     </div>
 
     <!-- TABLETS -->
-    <p id="tablets" class="section-label" style="margin-top:3rem;">Tablets</p>
-    <h3 class="section-title" style="font-size:1.3rem;">Work & Play</h3>
-    <div class="product-grid">
-      <div class="product-card">
-        <div class="product-img"><img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=400" alt="Tablet"><span class="product-badge">TRENDING</span></div>
-        <div class="product-info">
-          <h3>Tab Air M2</h3>
-          <div class="sub">11-inch Display · 128GB</div>
-          <div class="product-footer">
-            <span class="price">₹54,900</span>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-img"><img src="https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?auto=format&fit=crop&q=80&w=400" alt="Tablet"></div>
-        <div class="product-info">
-          <h3>Tab Ultra Pro</h3>
-          <div class="sub">12.9-inch Display · 256GB</div>
-          <div class="product-footer">
-            <span class="price">₹1,09,900</span>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
+    <div class="brand-section" id="tablets-section">
+      <p class="section-label" style="margin-top:3rem;">Tablets</p>
+      <h3 class="section-title" style="font-size:1.3rem;">Work & Play</h3>
+      <div class="product-grid"></div>
     </div>
 
     <!-- WEARABLES -->
-    <p id="wearables" class="section-label" style="margin-top:3rem;">Wearables</p>
-    <h3 class="section-title" style="font-size:1.3rem;">Stay Connected</h3>
-    <div class="product-grid">
-      <div class="product-card">
-        <div class="product-img"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=400" alt="Smartwatch"><span class="product-badge">BEST VALUE</span></div>
-        <div class="product-info">
-          <h3>Active Watch SE</h3>
-          <div class="sub">GPS · Heart Rate Monitor</div>
-          <div class="product-footer">
-            <span class="price">₹24,900</span>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-img"><img src="https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&q=80&w=400" alt="Smartwatch"></div>
-        <div class="product-info">
-          <h3>Pro Watch Series 9</h3>
-          <div class="sub">Always-on Display · Health Suite</div>
-          <div class="product-footer">
-            <span class="price">₹41,900</span>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
+    <div class="brand-section" id="wearables-section">
+      <p class="section-label" style="margin-top:3rem;">Wearables</p>
+      <h3 class="section-title" style="font-size:1.3rem;">Stay Connected</h3>
+      <div class="product-grid"></div>
     </div>
 
     <!-- ACCESSORIES -->
-    <p id="accessories" class="section-label" style="margin-top:3rem;">Accessories</p>
-    <h3 class="section-title" style="font-size:1.3rem;">Enhance Your Experience</h3>
-    <div class="product-grid">
-      <div class="product-card">
-        <div class="product-img"><img src="https://images.unsplash.com/photo-1585338107529-13afc5f0141f?auto=format&fit=crop&q=80&w=400" alt="Headphones"><span class="product-badge">BESTSELLER</span></div>
-        <div class="product-info">
-          <h3>Noise Cancelling Headphones</h3>
-          <div class="sub">Wireless · 30H Battery</div>
-          <div class="product-footer">
-            <span class="price">₹12,499</span>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
+    <div class="brand-section" id="accessories-section">
+      <p class="section-label" style="margin-top:3rem;">Accessories</p>
+      <h3 class="section-title" style="font-size:1.3rem;">Enhance Your Experience</h3>
+      <div class="product-grid"></div>
     </div>
   </div>
 
@@ -1285,7 +1144,7 @@
                     <div class="fav-item-name" style="font-weight:600;font-size:0.9rem;">${p.name}</div>
                     <div><span class="fav-item-price" style="color:var(--primary-mobile);font-weight:700;">${p.price}</span></div>
                     <div class="fav-item-actions" style="display:flex;gap:8px;margin-top:8px;">
-                        <button class="fav-add-btn" onclick="handleAddToCart('${p.name.replace(/'/g, "\\'")}', '${p.price}', '${p.image}')" style="font-size:0.75rem;padding:4px 10px;background:var(--primary-mobile);color:white;border:none;border-radius:6px;">Add</button>
+                        <button class="fav-add-btn" onclick="handleAddToCart('${p.name.replace(/'/g, "\\'")}', '${p.price}', '${p.image}', ${p.id})" style="font-size:0.75rem;padding:4px 10px;background:var(--primary-mobile);color:white;border:none;border-radius:6px;">Add</button>
                         <button class="fav-remove-btn" onclick="removeFromFavourites(${id})" style="background:none;border:none;color:var(--gray);"><i class="bi bi-trash3"></i></button>
                     </div>
                 </div>
@@ -1353,20 +1212,15 @@
         }
     }
 
-    function handleLogout() {
-        localStorage.removeItem('pbssd_user');
-        window.location.reload();
-    }
-
-    function handleAddToCart(name, price, img) {
+    function handleAddToCart(name, price, img, productId) {
         if (!localStorage.getItem('pbssd_user')) {
             new bootstrap.Modal(document.getElementById('userLoginModal')).show();
             return;
         }
         let lsCart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
-        const exLs = lsCart.find(i => i.name === name);
+        const exLs = lsCart.find(i => i.id === productId);
         if (exLs) exLs.quantity = (exLs.quantity || 1) + 1;
-        else lsCart.push({ id: Date.now(), name, price, image: img, quantity: 1 });
+        else lsCart.push({ id: productId, name, price, image: img, quantity: 1 });
         localStorage.setItem('pbssd_cart', JSON.stringify(lsCart));
 
         const count = lsCart.reduce((sum, item) => sum + item.quantity, 0);
@@ -1411,17 +1265,75 @@
     document.getElementById('arrowNext').addEventListener('click', () => goTo(current + 1));
     resetTimer();
 
-    // --- MOBILE PRODUCTS DATA (FOR WISHLIST) ---
-    const mobileProducts = [];
+    // --- MOBILE PRODUCTS DATA ---
+    const mobileProducts = [
+        { id: 1001, name: 'Galaxy S24 Ultra', brand: 'samsung', category: 'smartphones', price: '₹1,24,999', image: 'https://images.unsplash.com/photo-1690788056245-025bd89708a1?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c2Ftc3VuZyUyMG1vYmlsZXxlbnwwfHwwfHx8MA%3D%3D', sub: '12GB RAM · 512GB Storage', badge: 'NEW' },
+        { id: 1002, name: 'Galaxy Tab S9', brand: 'samsung', category: 'tablets', price: '₹72,999', image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?auto=format&fit=crop&q=80&w=400https://images.unsplash.com/photo-1726839643381-901c3eabffb8?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGlwaG9uZSUyMG1vYmlsZXxlbnwwfHwwfHx8MA%3D%3D', sub: 'AMOLED Display · S-Pen', badge: 'BEST' },
+        { id: 1003, name: 'iPhone 15 Pro', brand: 'iphone', category: 'smartphones', price: '₹1,29,900', image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba3f21?auto=format&fit=crop&q=80&w=400', sub: 'Titanium · A17 Pro', badge: 'HOT' },
+        { id: 1004, name: 'iPad Air M2', brand: 'iphone', category: 'tablets', price: '₹54,900', image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=400', sub: 'M2 Chip · 11-inch', badge: 'POPULAR' },
+        { id: 1005, name: 'Realme GT 5', brand: 'realme', category: 'smartphones', price: '₹34,999', image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=400', sub: '240W Charging · SD 8 Gen 2', badge: 'FAST' },
+        { id: 1006, name: 'Moto Edge 50 Pro', brand: 'motorola', category: 'smartphones', price: '₹31,999', image: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&q=80&w=400', sub: 'Pantone Display', badge: 'NEW' },
+        { id: 1007, name: 'Poco X6 Pro', brand: 'poco', category: 'smartphones', price: '₹26,999', image: 'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&q=80&w=400', sub: 'Dimensity 8300 Ultra', badge: 'GAMING' },
+        { id: 1008, name: 'Nothing Phone (2)', brand: 'nothing', category: 'smartphones', price: '₹39,999', image: 'https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=400', sub: 'Glyph Interface', badge: 'UNIQUE' },
+        { id: 1009, name: 'Xiaomi 14', brand: 'mi', category: 'smartphones', price: '₹69,999', image: 'https://images.unsplash.com/photo-1656758211671-b0c364e4b508?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8eGlhb21pJTIwbW9iaWxlfGVufDB8fDB8fHww', sub: 'Leica Optics', badge: 'PREMIUM' },
+        { id: 1010, name: 'Tecno Phantom V Fold', brand: 'tecno', category: 'smartphones', price: '₹69,999', image: 'https://images.unsplash.com/photo-1656758211671-b0c364e4b508?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8eGlhb21pJTIwbW9iaWxlfGVufDB8fDB8fHww', sub: 'Foldable Display', badge: 'INNOVATION' },
+        { id: 1011, name: 'CMF Phone 1', brand: 'cmf', category: 'smartphones', price: '₹15,999', image: 'https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=400', sub: 'Modular Design', badge: 'VALUE' },
+        { id: 1012, name: 'Redmi Note 13 Pro+', brand: 'redmi', category: 'smartphones', price: '₹31,999', image: 'https://images.unsplash.com/photo-1546054454-aa26a3479857?auto=format&fit=crop&q=80&w=400https://images.unsplash.com/photo-1635434651542-bcd747240352?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmVkbWklMjBtb2JpbGV8ZW58MHx8MHx8fDA%3D', sub: '200MP Camera', badge: 'POPULAR' },
+        { id: 1013, name: 'Wireless Buds Pro', brand: 'accessories', category: 'accessories', price: '₹4,999', image: 'https://images.unsplash.com/photo-1590658268037-6bf12f032f55?auto=format&fit=crop&q=80&w=400', sub: 'Noise Cancelling', badge: 'BEST' },
+        { id: 1014, name: 'Galaxy Watch 6', brand: 'samsung', category: 'wearables', price: '₹32,999', image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&q=80&w=400', sub: 'Health Tracking', badge: 'HOT' },
+        { id: 1015, name: 'Galaxy Z Fold 5', brand: 'samsung', category: 'smartphones', price: '₹1,54,999', image: 'https://images.unsplash.com/photo-1610940882244-18ac607d8575?auto=format&fit=crop&q=80&w=400', sub: 'Foldable Excellence', badge: 'LUXURY' },
+        { id: 1016, name: 'iPhone 15', brand: 'iphone', category: 'smartphones', price: '₹79,900', image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba3f21?auto=format&fit=crop&q=80&w=400', sub: 'Dynamic Island · A16 Bionic', badge: 'TRENDING' },
+        { id: 1017, name: 'Realme Narzo 70 Pro', brand: 'realme', category: 'smartphones', price: '₹19,999', image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=400', sub: 'Horizon Glass Design', badge: 'VALUE' },
+        { id: 1018, name: 'Moto Razr 50 Ultra', brand: 'motorola', category: 'smartphones', price: '₹89,999', image: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&q=80&w=400', sub: 'Large External Display', badge: 'FOLDABLE' },
+        { id: 1019, name: 'Poco F6', brand: 'poco', category: 'smartphones', price: '₹29,999', image: 'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&q=80&w=400', sub: 'Snapdragon 8s Gen 3', badge: 'PERFORMANCE' },
+        { id: 1020, name: 'Nothing Phone (2a)', brand: 'nothing', category: 'smartphones', price: '₹23,999', image: 'https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=400', sub: 'Fresh Eyes · Glyph Lite', badge: 'LATEST' },
+        { id: 1021, name: 'Xiaomi 14 Ultra', brand: 'mi', category: 'smartphones', price: '₹99,999', image: 'https://images.unsplash.com/photo-1546054454-aa26a3479857?auto=format&fit=crop&q=80&w=400', sub: '1-inch Main Sensor', badge: 'CAMERA' },
+        { id: 1022, name: 'Tecno Camon 30 Premier', brand: 'tecno', category: 'smartphones', price: '₹39,999', image: 'https://images.unsplash.com/photo-1604671871544-c523154333c7?auto=format&fit=crop&q=80&w=400', sub: 'PolarAce Imaging System', badge: 'NEW' },
+        { id: 1023, name: 'CMF Buds', brand: 'accessories', category: 'accessories', price: '₹2,499', image: 'https://images.unsplash.com/photo-1590658268037-6bf12f032f55?auto=format&fit=crop&q=80&w=400', sub: 'ANC · Ultra Bass', badge: 'BEST BUY' },
+        { id: 1024, name: 'Redmi 13C', brand: 'redmi', category: 'smartphones', price: '₹8,999', image: 'https://images.unsplash.com/photo-1546054454-aa26a3479857?auto=format&fit=crop&q=80&w=400', sub: 'Budget King', badge: 'BESTSELLER' }
+    ];
+
+    function renderProductCard(p) {
+        const isFav = favourites.includes(p.id);
+        return `
+            <div class="product-card" data-id="${p.id}" onclick="window.location.href='mobile_productDetails.html?id=${p.id}'">
+                <div class="product-img">
+                    <img src="${p.image}" alt="${p.name}">
+                    ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+                    <button class="wishlist-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavourite(${p.id}, this)">
+                        <i class="bi bi-heart${isFav ? '-fill' : ''}"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>${p.name}</h3>
+                    <div class="sub">${p.sub}</div>
+                    <div class="product-footer d-flex justify-content-between align-items-center">
+                        <span class="price">${p.price}</span>
+                        <button class="add-btn" onclick="event.stopPropagation(); handleAddToCart('${p.name.replace(/'/g, "\\'")}', '${p.price}', '${p.image}', ${p.id})">+</button>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    function renderProductSections(brand = 'all') {
+        const secs = ['smartphones', 'tablets', 'wearables', 'accessories'];
+        secs.forEach(sec => {
+            const grid = document.querySelector(`#${sec}-section .product-grid`);
+            const sectionWrapper = document.getElementById(`${sec}-section`);
+            if (!grid) return;
+            const filtered = mobileProducts.filter(p => p.category === sec && (brand === 'all' || p.brand === brand));
+            grid.innerHTML = filtered.map(renderProductCard).join('');
+            sectionWrapper.style.display = filtered.length > 0 ? 'block' : 'none';
+        });
+    }
 
     // --- CATEGORY PILLS ---
     document.querySelectorAll('.pill').forEach(pill => {
         pill.addEventListener('click', () => {
             document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
             pill.classList.add('active');
-            const target = pill.getAttribute('data-target');
-            if(target === 'all') window.scrollTo({top:0, behavior: 'smooth'});
-            else document.getElementById(target)?.scrollIntoView({behavior: 'smooth'});
+            const brand = pill.getAttribute('data-brand');
+            renderProductSections(brand);
         });
     });
 
@@ -1430,52 +1342,8 @@
         const preloader = document.getElementById('preloader');
         setTimeout(() => { if (preloader) { preloader.style.opacity = '0'; preloader.style.visibility = 'hidden'; } }, 1000);
         AOS.init({ duration: 900, once: true });
-
         checkAuth();
-
-        // --- DYNAMICALLY ADD WISHLIST BUTTONS & HANDLERS ---
-        document.querySelectorAll('.product-card').forEach((card, idx) => {
-            const imgContainer = card.querySelector('.product-img');
-            if (!imgContainer) return;
-            
-            const id = idx + 1001; // unique internal IDs for this page
-            card.dataset.id = id;
-
-            const name = card.querySelector('h3')?.innerText;
-            const price = card.querySelector('.price')?.innerText;
-            const img = card.querySelector('img')?.src;
-            const sub = card.querySelector('.sub')?.innerText;
-            const badge = card.querySelector('.product-badge')?.innerText || '';
-
-            mobileProducts.push({ id, name, price, image: img });
-
-            const btn = document.createElement('button');
-            btn.className = 'wishlist-btn';
-            btn.innerHTML = '<i class="bi bi-heart"></i>';
-            btn.onclick = (e) => {
-                e.stopPropagation();
-                toggleFavourite(id, btn);
-            };
-            imgContainer.appendChild(btn);
-
-            card.addEventListener('click', (e) => {
-                if (e.target.closest('.wishlist-btn') || e.target.closest('.add-btn')) return;
-                window.location.href = `mobile_productDetails.html?name=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}&img=${encodeURIComponent(img)}&sub=${encodeURIComponent(sub)}&badge=${encodeURIComponent(badge)}`;
-            });
-
-            const addBtn = card.querySelector('.add-btn');
-            if (addBtn) {
-                addBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    handleAddToCart(name, price, img);
-                    const orig = addBtn.textContent;
-                    addBtn.textContent = '✓';
-                    addBtn.style.background = 'var(--primary-mobile)';
-                    setTimeout(() => { addBtn.textContent = orig; addBtn.style.background = ''; }, 1200);
-                };
-            }
-        });
-
+        renderProductSections();
         const iconBadge = document.getElementById('favIconBadge');
         if (iconBadge) {
             iconBadge.textContent = favourites.length;
